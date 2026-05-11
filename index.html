@@ -66,12 +66,12 @@ header{
   transition:background var(--transition);
 }
 .header-inner{
-  display:flex;flex-direction:column;align-items:center;
-  max-width:var(--max-w);margin:0 auto;padding:12px 24px 8px;
+  display:flex;flex-direction:row;align-items:center;justify-content:space-between;
+  max-width:var(--max-w);margin:0 auto;padding:12px 24px;
 }
-.logo{width:80%;max-width:900px;height:auto}
-.logo-link{display:flex;align-items:center;justify-content:center;flex:1}
-nav{display:flex;align-items:center;gap:32px}
+.logo{width:100%;max-width:280px;height:auto}
+.logo-link{display:flex;align-items:center;flex-shrink:0}
+nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 nav a{
   color:rgba(255,255,255,0.75);font-size:1.35rem;font-weight:500;
   letter-spacing:0.02em;transition:color var(--transition);
@@ -130,11 +130,12 @@ nav a:hover,nav a.active{color:#fff}
 .hero-video-bg::after{transition:background 1.5s ease}
 .hero.text-faded .hero-video-bg::after{background:linear-gradient(180deg,rgba(10,10,10,0.2) 0%,rgba(10,10,10,0.5) 100%)}
 .hero h1{
-  font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;
-  line-height:1.1;margin-bottom:24px;
-  background:linear-gradient(135deg,var(--white) 0%,#ccc 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
+  font-size:clamp(1.2rem,2.8vw,2.2rem);font-weight:600;
+  line-height:1.2;margin-bottom:20px;
+  white-space:nowrap;
+  color:rgba(255,255,255,0.9);
+  text-shadow:0 2px 20px rgba(0,0,0,0.5);
+  letter-spacing:0.02em;
 }
 .hero p{
   font-size:clamp(1rem,2vw,1.25rem);color:var(--text-muted);
