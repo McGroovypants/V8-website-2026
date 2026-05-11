@@ -70,7 +70,7 @@ header{
   display:flex;flex-direction:row;align-items:center;justify-content:space-between;
   max-width:var(--max-w);margin:0 auto;padding:12px 24px;
 }
-.logo{width:100%;max-width:280px;height:auto}
+.logo{width:100%;max-width:252px;height:auto}
 .logo-link{display:flex;align-items:center;flex-shrink:0}
 nav{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 nav a{
@@ -307,7 +307,7 @@ section{padding:80px 0}
 .team-card:nth-child(even):not(.placeholder){direction:rtl}
 .team-card:nth-child(even) > *{direction:ltr}
 .team-photo{
-  width:100%;aspect-ratio:3/4;
+  width:80%;aspect-ratio:3/4;
   border-radius:var(--radius);overflow:hidden;
   background:linear-gradient(135deg,#e8e8e8,#ddd);
 }
@@ -333,13 +333,15 @@ section{padding:80px 0}
   background:var(--bg-card);border-radius:var(--radius);padding:32px;
   border:1px solid rgba(255,255,255,0.04);position:relative;
 }
-.testimonial-card::before{
-  content:'\201C';position:absolute;top:16px;left:24px;
-  font-size:4rem;color:var(--accent);opacity:0.2;line-height:1;font-family:Georgia,serif;
+.testimonial-card::after{
+  content:'\201D';position:absolute;bottom:24px;right:24px;
+  font-size:5rem;color:var(--accent);opacity:0.25;line-height:1;font-family:Georgia,serif;
+  pointer-events:none;
 }
 .testimonial-card blockquote{
   font-size:0.95rem;line-height:1.7;color:var(--text);
   font-style:italic;margin-bottom:20px;position:relative;z-index:1;
+  padding-right:2.5rem;padding-bottom:2rem;
 }
 .testimonial-author{font-size:0.85rem;font-weight:600}
 .testimonial-role{font-size:0.8rem;color:var(--text-muted)}
@@ -750,19 +752,19 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     <div class="testimonials-grid">
 
       <div class="testimonial-card fade-in">
-        <blockquote data-v8-field="testimonial-1">"Vision8 were great to work with. By spending the time with me initially, talking and listening, the team very quickly understood our vision and what we were wanting to achieve by making the Horleys Video."</blockquote>
+        <blockquote data-v8-field="testimonial-1">Vision8 were great to work with. By spending the time with me initially, talking and listening, the team very quickly understood our vision and what we were wanting to achieve by making the Horleys Video.</blockquote>
         <div class="testimonial-author" data-v8-field="testimonial-author-1">Paula Bowden</div>
         <div class="testimonial-role" data-v8-field="testimonial-role-1">General Manager, Horleys Intelligent Nutrition</div>
       </div>
 
       <div class="testimonial-card fade-in">
-        <blockquote data-v8-field="testimonial-2">"It was Vision8 that set GS1 NZ on its journey of using video as a medium to tell both our story and those of our customers, and we've never looked back."</blockquote>
+        <blockquote data-v8-field="testimonial-2">It was Vision8 that set GS1 NZ on its journey of using video as a medium to tell both our story and those of our customers, and we've never looked back.</blockquote>
         <div class="testimonial-author" data-v8-field="testimonial-author-2">Gary Hartley</div>
         <div class="testimonial-role" data-v8-field="testimonial-role-2">General Manager, GS1 NZ</div>
       </div>
 
       <div class="testimonial-card fade-in">
-        <blockquote data-v8-field="testimonial-3">"The Vision8 team are extremely professional, providing a fantastic service and product. A real joy to work with."</blockquote>
+        <blockquote data-v8-field="testimonial-3">The Vision8 team are extremely professional, providing a fantastic service and product. A real joy to work with.</blockquote>
         <div class="testimonial-author" data-v8-field="testimonial-author-3">Rob McCann</div>
         <div class="testimonial-role" data-v8-field="testimonial-role-3">White Ribbon Manager</div>
       </div>
