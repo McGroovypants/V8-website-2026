@@ -17,13 +17,31 @@
   --bg-card-hover:#1a1a1a;
   --text:#f0f0f0;
   --text-muted:#999;
-  --accent:#e63946;
-  --accent-hover:#ff4d5a;
+  --accent:#0ea5e9;
+  --accent-hover:#38bdf8;
   --white:#fff;
   --radius:12px;
   --transition:0.3s ease;
   --max-w:1200px;
 }
+
+html.light {
+  --bg:#f8f9fa;
+  --bg-card:#ffffff;
+  --bg-card-hover:#f0f0f0;
+  --text:#1a1a1a;
+  --text-muted:#555;
+}
+html.light .hero-overlay { background:linear-gradient(to bottom,rgba(255,255,255,0.3),rgba(248,249,250,0.95)) }
+html.light .site-header { background:rgba(248,249,250,0.95);border-bottom:1px solid #e0e0e0 }
+html.light .card-video-wrap .placeholder { background:linear-gradient(135deg,#e8e8e8 0%,#ddd 100%);color:#888 }
+html.light footer { background:#1a1a1a }
+
+.theme-toggle{background:none;border:1px solid var(--text-muted);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:all var(--transition)}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.theme-toggle .icon-moon{display:none}
+html.light .theme-toggle .icon-sun{display:none}
+html.light .theme-toggle .icon-moon{display:block}
 html{scroll-behavior:smooth;font-size:16px}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -51,7 +69,7 @@ header{
   display:flex;align-items:center;justify-content:space-between;
   max-width:var(--max-w);margin:0 auto;padding:16px 24px;
 }
-.logo{height:40px;width:auto}
+.logo{height:60px;width:auto}
 .logo-link{display:flex;align-items:center;gap:10px}
 nav{display:flex;align-items:center;gap:32px}
 nav a{
@@ -103,7 +121,7 @@ nav a:hover,nav a.active{color:var(--white)}
 }
 .hero::before{
   content:'';position:absolute;inset:0;z-index:1;
-  background:radial-gradient(ellipse at center,rgba(230,57,70,0.08) 0%,transparent 70%);
+  background:radial-gradient(ellipse at center,rgba(14,165,233,0.08) 0%,transparent 70%);
   pointer-events:none;
 }
 .hero-content{position:relative;z-index:2;max-width:800px}
@@ -309,16 +327,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 .fade-in:nth-child(4){transition-delay:0.3s}
 .fade-in:nth-child(5){transition-delay:0.4s}
 
-/* ============ PLAYING INDICATOR ============ */
-.video-status{
-  position:absolute;top:12px;right:12px;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--accent);opacity:0;
-  transition:opacity var(--transition);
-  z-index:2;
-}
-.card-video-wrap.is-playing .video-status{opacity:1;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}
+
 </style>
 </head>
 <body>
@@ -327,7 +336,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 <header>
   <div class="header-inner">
     <a href="#" class="logo-link" data-v8-field="logo">
-      <img class="logo" src="https://res.cloudinary.com/deyb4o5qz/image/upload/h_80,q_auto,f_auto/Vision8_LOGO_on_Clear_jpg0mz.png" alt="Vision8" />
+      <img class="logo" src="https://res.cloudinary.com/deyb4o5qz/image/upload/h_120,q_auto,f_auto/vision8-website-media/logos/Vision8 logos/1_-_Vision8_LOGO_FINAL_website_2026_p8ztcu.png" alt="Vision8" />
     </a>
     <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('nav').classList.toggle('open')">
       <span></span><span></span><span></span>
@@ -336,6 +345,10 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <a href="#hero" class="active">Home</a>
       <a href="#services">Services</a>
       <a href="#team">Team</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode" title="Toggle theme">
+  <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
       <a href="#contact" class="nav-cta">Contact Us</a>
     </nav>
   </div>
@@ -394,12 +407,11 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 1. Air & Sea Filming -->
       <div class="service-card fade-in" data-v8-service="air-sea">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_sky_and_water_Reel_1_uzx4vi.jpg"
             data-v8-video="air-sea"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_sky_and_water_Reel_1_uzx4vi.mp4">
           </video>
-          <div class="placeholder">Video placeholder</div>
         </div>
         <div class="card-body">
           <h3 data-v8-field="service-title-1">Air & Sea Filming</h3>
@@ -411,8 +423,8 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 2. Marketing & Engagement -->
       <div class="service-card fade-in" data-v8-service="marketing">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Corp_Comms_Reels_1_czh0mh.jpg"
             data-v8-video="marketing"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_Corp_Comms_Reels_1_czh0mh.mp4">
           </video>
@@ -427,12 +439,11 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 3. Te Ao Maori & Pasifika -->
       <div class="service-card fade-in" data-v8-service="te-ao-maori">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Te_Ao_Maori_Reel_1_ck0nsf.jpg"
             data-v8-video="te-ao-maori"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_Te_Ao_Maori_Reel_1_ck0nsf.mp4">
           </video>
-          <div class="placeholder">Video placeholder</div>
         </div>
         <div class="card-body">
           <h3 data-v8-field="service-title-3">Te Ao Maori & Pasifika</h3>
@@ -444,12 +455,11 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 4. Corporate Comms -->
       <div class="service-card fade-in" data-v8-service="corporate">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Corp_Comms_Reels_1_czh0mh.jpg"
             data-v8-video="corporate"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_Corp_Comms_Reels_1_czh0mh.mp4">
           </video>
-          <div class="placeholder">Video placeholder</div>
         </div>
         <div class="card-body">
           <h3 data-v8-field="service-title-4">Corporate Comms Videos</h3>
@@ -461,12 +471,11 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 5. Food Filming -->
       <div class="service-card fade-in" data-v8-service="food">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Food_Reel_1_pn4hog.jpg"
             data-v8-video="food"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_Food_Reel_1_pn4hog.mp4">
           </video>
-          <div class="placeholder">Video placeholder</div>
         </div>
         <div class="card-body">
           <h3 data-v8-field="service-title-5">Food Filming & Styling</h3>
@@ -478,12 +487,11 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 6. Motion Graphics & Animation -->
       <div class="service-card fade-in" data-v8-service="motion">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Animation_Motion_Gfx_h0emew.jpg"
             data-v8-video="motion"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_Animation_Motion_Gfx_h0emew.mp4">
           </video>
-          <div class="placeholder">Video placeholder</div>
         </div>
         <div class="card-body">
           <h3 data-v8-field="service-title-6">Motion Graphics & Animation</h3>
@@ -495,8 +503,8 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 7. Explainer Videos -->
       <div class="service-card fade-in" data-v8-service="explainer">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision_8_Explainer_videos_reel_nkyotq.jpg"
             data-v8-video="explainer"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision_8_Explainer_videos_reel_nkyotq.mp4">
           </video>
@@ -511,12 +519,11 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <!-- 8. Testimonial Videos -->
       <div class="service-card fade-in" data-v8-service="testimonials">
         <div class="card-video-wrap">
-          <div class="video-status"></div>
           <video muted loop playsinline preload="none"
+            poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Testimonials_Reels_V1_udukwv.jpg"
             data-v8-video="testimonials"
             data-src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_Testimonials_Reels_V1_udukwv.mp4">
           </video>
-          <div class="placeholder">Video placeholder</div>
         </div>
         <div class="card-body">
           <h3 data-v8-field="service-title-8">Testimonial Videos</h3>
@@ -697,6 +704,16 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 (function(){
   'use strict';
 
+  // Theme toggle
+  if (localStorage.getItem('v8-theme') === 'light') document.documentElement.classList.add('light');
+
+  function toggleTheme() {
+    document.documentElement.classList.toggle('light');
+    localStorage.setItem('v8-theme', document.documentElement.classList.contains('light') ? 'light' : 'dark');
+  }
+  window.toggleTheme = toggleTheme;
+
+
   /* ---- VIDEO MANAGER: Intersection Observer + max 3 playing ---- */
   const MAX_PLAYING = 3;
   const playingVideos = new Set();
@@ -752,7 +769,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
     playingVideos.forEach(v => { if (!toPlay.has(v)) stopVideo(v); });
     toPlay.forEach(v => startVideo(v));
-  }, { threshold: 0.25 });
+  }, { threshold: 0.1, rootMargin: '200px 0px' });
 
   document.querySelectorAll('.card-video-wrap video').forEach(v => videoObserver.observe(v));
 
