@@ -124,7 +124,11 @@ nav a:hover,nav a.active{color:var(--white)}
   background:radial-gradient(ellipse at center,rgba(14,165,233,0.08) 0%,transparent 70%);
   pointer-events:none;
 }
-.hero-content{position:relative;z-index:2;max-width:800px}
+.hero-content{position:relative;z-index:2;max-width:800px;animation:heroFadeOut 1.5s ease 4s forwards}
+@keyframes heroFadeOut{to{opacity:0;transform:translateY(-20px);pointer-events:none}}
+.hero-content:hover,.hero-content.show{animation:none;opacity:1;transform:none}
+.hero-video-bg::after{transition:background 1.5s ease}
+.hero.text-faded .hero-video-bg::after{background:linear-gradient(180deg,rgba(10,10,10,0.2) 0%,rgba(10,10,10,0.5) 100%)}
 .hero h1{
   font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;
   line-height:1.1;margin-bottom:24px;
@@ -186,9 +190,8 @@ section{padding:100px 0}
 }
 .card-video-wrap video{
   position:absolute;top:0;left:0;width:100%;height:100%;
-  object-fit:cover;opacity:0;transition:opacity 0.6s ease;
+  object-fit:cover;opacity:1;transition:opacity 0.6s ease;
 }
-.card-video-wrap video.playing{opacity:1}
 .card-video-wrap .placeholder{
   position:absolute;top:0;left:0;width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
@@ -196,7 +199,7 @@ section{padding:100px 0}
   color:var(--text-muted);font-size:0.8rem;letter-spacing:0.1em;
   text-transform:uppercase;transition:opacity 0.6s ease;
 }
-.card-video-wrap.is-playing .placeholder{opacity:0;pointer-events:none}
+.card-video-wrap.has-poster .placeholder{opacity:0;pointer-events:none}
 .card-body{padding:24px}
 .card-body h3{font-size:1.15rem;font-weight:600;margin-bottom:8px}
 .card-body p{font-size:0.9rem;color:var(--text-muted);line-height:1.6;margin-bottom:16px}
@@ -336,7 +339,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 <header>
   <div class="header-inner">
     <a href="#" class="logo-link" data-v8-field="logo">
-      <img class="logo" src="https://res.cloudinary.com/deyb4o5qz/image/upload/h_120,q_auto,f_auto/vision8-website-media/logos/Vision8 logos/1_-_Vision8_LOGO_FINAL_website_2026_p8ztcu.png" alt="Vision8" />
+      <img class="logo" src="https://res.cloudinary.com/deyb4o5qz/image/upload/h_120,q_auto,f_auto/1_-_Vision8_LOGO_FINAL_website_2026B_rylcbj" alt="Vision8" />
     </a>
     <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('nav').classList.toggle('open')">
       <span></span><span></span><span></span>
@@ -713,6 +716,28 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
   }
   window.toggleTheme = toggleTheme;
 
+
+  /* ---- Mark cards with poster frames ---- */
+  document.querySelectorAll('.card-video-wrap video[poster]').forEach(function(v){
+    v.closest('.card-video-wrap')?.classList.add('has-poster');
+  });
+
+  /* ---- HERO TEXT FADE: lighten overlay after text fades ---- */
+  const hero = document.querySelector('.hero');
+  const heroContent = document.querySelector('.hero-content');
+  if (hero && heroContent) {
+    // After CSS animation ends (4s delay + 1.5s anim = 5.5s), lighten overlay
+    setTimeout(function(){ hero.classList.add('text-faded'); }, 5500);
+    // On hover, bring text back and darken overlay
+    hero.addEventListener('mouseenter', function(){
+      heroContent.classList.add('show');
+      hero.classList.remove('text-faded');
+    });
+    hero.addEventListener('mouseleave', function(){
+      heroContent.classList.remove('show');
+      hero.classList.add('text-faded');
+    });
+  }
 
   /* ---- VIDEO MANAGER: Intersection Observer + max 3 playing ---- */
   const MAX_PLAYING = 3;
