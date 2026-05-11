@@ -17,8 +17,8 @@
   --bg-card-hover:#1a1a1a;
   --text:#f0f0f0;
   --text-muted:#999;
-  --accent:#0ea5e9;
-  --accent-hover:#38bdf8;
+  --accent:#4E7A8F;
+  --accent-hover:#5d8da3;
   --white:#fff;
   --radius:12px;
   --transition:0.3s ease;
@@ -33,7 +33,7 @@ html.light {
   --text-muted:#555;
 }
 html.light .hero-overlay { background:transparent }
-html.light .site-header { background:rgba(71,100,112,0.95);border-bottom:1px solid rgba(71,100,112,0.3) }
+html.light .site-header { background:rgba(70,117,125,0.95);border-bottom:1px solid rgba(70,117,125,0.3) }
 html.light .card-video-wrap .placeholder { background:linear-gradient(135deg,#e8e8e8 0%,#ddd 100%);color:#888 }
 html.light footer { background:#1a1a1a }
 
@@ -59,7 +59,7 @@ img{max-width:100%;height:auto;display:block}
 /* ============ HEADER ============ */
 header{
   position:fixed;top:0;left:0;right:0;z-index:1000;
-  background:rgba(71,100,112,0.95);
+  background:rgba(70,117,125,0.95);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,0.06);
@@ -225,7 +225,7 @@ section{padding:100px 0}
 /* ============ ABOUT ============ */
 #about{background:var(--bg)}
 #about .section-title{font-size:clamp(1.9rem,5vw,3.5rem)}
-.about-text{text-align:center;max-width:900px;margin:0 auto}
+.about-text{text-align:center;margin:0 auto}
 .about-text .section-subtitle{margin-bottom:24px;font-size:1.15rem;line-height:1.7}
 .about-stats{
   display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:32px;
@@ -252,7 +252,7 @@ section{padding:100px 0}
 .team-card{
   display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
   opacity:0;transform:translateX(-80px);
-  transition:opacity 0.8s ease,transform 0.8s ease;
+  transition:opacity 0.8s ease 0.5s,transform 0.8s ease 0.5s;
 }
 .team-card:nth-child(even){transform:translateX(80px)}
 .team-card.visible{opacity:1;transform:translateX(0)}
@@ -388,13 +388,13 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     <div class="about-text">
       <p class="section-label">About Us</p>
       <h2 class="section-title" data-v8-field="about-title">Premium Video Production Services</h2>
-      <p class="section-subtitle" data-v8-field="about-text">Vision8 is a nimble and creative company with 25 years of industry experience crafting commercials, campaigns, TV series, corporate communications, and social media content -- our team works in partnership with yours to understand your audience and bring messaging to life with inspirational, professional video communications.</p>
       <div class="about-stats">
         <div class="stat"><div class="stat-number">25+</div><div class="stat-label">Years experience</div></div>
         <div class="stat"><div class="stat-number">500+</div><div class="stat-label">Projects delivered</div></div>
         <div class="stat"><div class="stat-number">9</div><div class="stat-label">Specialist services</div></div>
         <div class="stat"><div class="stat-number">100%</div><div class="stat-label">NZ owned</div></div>
       </div>
+      <p class="section-subtitle" data-v8-field="about-text">Vision8 is a nimble and creative company with 25 years of industry experience crafting commercials, campaigns, TV series, corporate communications, and social media content -- our team works in partnership with yours to understand your audience and bring messaging to life with inspirational, professional video communications.</p>
     </div>
     <div class="about-visual">
       <video muted loop playsinline autoplay
@@ -834,9 +834,29 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
     playingVideos.forEach(v => { if (!toPlay.has(v)) stopVideo(v); });
     toPlay.forEach(v => startVideo(v));
-  }, { threshold: 0.01, rootMargin: '800px 0px' });
+  }, { threshold: 0.01, rootMargin: '1200px 0px' });
 
   document.querySelectorAll('.card-video-wrap video').forEach(v => videoObserver.observe(v));
+
+  /* Re-evaluate playing videos on scroll so bottom-row cards get their turn */
+  let scrollTick = false;
+  window.addEventListener('scroll', () => {
+    if (scrollTick) return;
+    scrollTick = true;
+    requestAnimationFrame(() => {
+      scrollTick = false;
+      if (visibleCards.size === 0) return;
+      const viewportCenter = window.innerHeight / 2;
+      const sorted = [...visibleCards].sort((a, b) => {
+        const ra = a.getBoundingClientRect();
+        const rb = b.getBoundingClientRect();
+        return Math.abs((ra.top + ra.bottom) / 2 - viewportCenter) - Math.abs((rb.top + rb.bottom) / 2 - viewportCenter);
+      });
+      const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
+      playingVideos.forEach(v => { if (!toPlay.has(v)) stopVideo(v); });
+      toPlay.forEach(v => startVideo(v));
+    });
+  }, { passive: true });
 
   /* ---- FADE-IN OBSERVER ---- */
   const fadeObserver = new IntersectionObserver((entries) => {
