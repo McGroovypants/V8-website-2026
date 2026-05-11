@@ -390,7 +390,19 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 .fade-in:nth-child(4){transition-delay:0.3s}
 .fade-in:nth-child(5){transition-delay:0.4s}
 
-
+/* ============ MOBILE OVERRIDES (must come last to win cascade) ============ */
+@media(max-width:768px){
+  section{padding:36px 0 !important}
+  .section-header{margin-bottom:20px !important}
+  .section-title{font-size:clamp(1.6rem,5vw,2.4rem) !important;white-space:normal !important}
+  .section-label{font-size:1.1rem !important}
+  .section-subtitle{font-size:1.05rem !important;margin-bottom:16px !important}
+  .logo-track img{height:60px !important}
+  .logo{max-width:200px !important}
+  header.header-hidden{transform:translateY(-100%) !important}
+  html,body{overflow-x:hidden !important}
+  .services-grid{grid-template-columns:1fr !important}
+}
 </style>
 </head>
 <body>
@@ -466,8 +478,8 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         data-modal-title="Air &amp; Sea Filming"
         data-modal-subtitle="Cinematic aerial and underwater filming that brings a distinctive edge to any production."
         data-modal-text="With certified CAA drone pilots and expertise in helicopter and UAV operations, Vision8 delivers epic aerial vistas and expert subject tracking. Our knowledge of flight rules and regulations enables us to undertake complex projects safely and effectively.||Beneath the surface, our diving and photography expertise brings vibrant underwater life to every production. From marine environments to rough weather boat shoots, we plan and execute quality filming for both aerial and underwater photography."
-        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_sky_and_water_Reel_1_xr9rvh.mp4"
-        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_sky_and_water_Reel_1_xr9rvh.jpg">
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_sky_and_water_Reel_1_uzx4vi.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_sky_and_water_Reel_1_uzx4vi.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_sky_and_water_Reel_1_uzx4vi.jpg"
@@ -508,8 +520,8 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         data-modal-title="Te Ao Māori &amp; Pasifika"
         data-modal-subtitle="Honouring Indigenous culture by understanding the importance of doing things the right way."
         data-modal-text="Vision8 works in partnership with Tangata whenua, Kaihautu, and Tautai to get to the heart of any story before it is told. This ensures stories are shared in a way that honours their origins, whether for Whakaata Māori, TVNZ, international broadcasters, or online audiences.||The team consults with government ministries, NGOs, and Māori and Pasifika organisations to tell stories that resonate with many audiences."
-        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Te_Ao_Maori_Reel_1_ihohmr.mp4"
-        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Te_Ao_Maori_Reel_1_ihohmr.jpg">
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Te_Ao_Maori_Reel_1_ck0nsf.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Te_Ao_Maori_Reel_1_ck0nsf.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Te_Ao_Maori_Reel_1_ck0nsf.jpg"
@@ -550,8 +562,8 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         data-modal-title="Food Filming &amp; Styling"
         data-modal-subtitle="Transforming the taste and vibrancy of food into mouthwatering visuals."
         data-modal-text="Experience filming food matters. It takes expertise in timing, lighting, focus, and a knowledge of food styling to capture dishes at their best.||Vision8 brings experience and quality control to any food shoot. Andy and his team have directed food content for NZ Beef &amp; Lamb, McDonald&#x27;s TV commercials, Nadia&#x27;s Kitchen, Kai Ora, and many other food clients."
-        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Food_Reel_1_jxkrsc.mp4"
-        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Food_Reel_1_jxkrsc.jpg">
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Food_Reel_1_pn4hog.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Food_Reel_1_pn4hog.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Food_Reel_1_pn4hog.jpg"
@@ -613,8 +625,8 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         data-modal-title="Testimonial Videos"
         data-modal-subtitle="Your clients, customers, and staff are the best ambassadors of your brand."
         data-modal-text="Vision8 has vast experience filming interviews and capturing testimonies from the people who matter most. We work hard to get everyday people comfortable on camera, drawing out compelling stories that connect.||We then edit the best content into visual gold — telling your story, enhancing your reputation, and letting authentic voices carry your message."
-        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Testimonials_Reels_V1_fkjbxl.mp4"
-        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Testimonials_Reels_V1_fkjbxl.jpg">
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Testimonials_Reels_V1_udukwv.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Testimonials_Reels_V1_udukwv.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Testimonials_Reels_V1_udukwv.jpg"
