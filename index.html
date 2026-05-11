@@ -32,7 +32,7 @@ html.light {
   --text:#1a1a1a;
   --text-muted:#555;
 }
-html.light .hero-overlay { background:linear-gradient(to bottom,rgba(255,255,255,0.3),rgba(248,249,250,0.95)) }
+html.light .hero-overlay { background:transparent }
 html.light .site-header { background:rgba(71,100,112,0.95);border-bottom:1px solid rgba(71,100,112,0.3) }
 html.light .card-video-wrap .placeholder { background:linear-gradient(135deg,#e8e8e8 0%,#ddd 100%);color:#888 }
 html.light footer { background:#1a1a1a }
@@ -113,15 +113,13 @@ nav a:hover,nav a.active{color:#fff}
 }
 .hero-video-bg video{
   width:100%;height:100%;object-fit:cover;
-  opacity:0.35;
 }
 .hero-video-bg::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(10,10,10,0.6) 0%,rgba(10,10,10,0.85) 100%);
+  background:transparent;
 }
 .hero::before{
   content:'';position:absolute;inset:0;z-index:1;
-  background:radial-gradient(ellipse at center,rgba(14,165,233,0.08) 0%,transparent 70%);
   pointer-events:none;
 }
 .hero-content{position:relative;z-index:2;max-width:800px;animation:heroFadeOut 1.5s ease 4s forwards}
@@ -157,8 +155,8 @@ section{padding:100px 0}
   letter-spacing:0.15em;color:var(--accent);margin-bottom:12px;
 }
 .section-title{
-  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;
-  margin-bottom:16px;line-height:1.2;
+  font-size:clamp(2.8rem,7vw,5rem);font-weight:700;
+  margin-bottom:24px;line-height:1.1;
 }
 .section-subtitle{
   font-size:1.05rem;color:var(--text-muted);
@@ -246,9 +244,12 @@ section{padding:100px 0}
 }
 .team-card{
   display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
-  transition:opacity 0.6s ease;
+  opacity:0;transform:translateX(-80px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
 }
-.team-card:nth-child(even){direction:rtl}
+.team-card:nth-child(even){transform:translateX(80px)}
+.team-card.visible{opacity:1;transform:translateX(0)}
+.team-card:nth-child(even):not(.placeholder){direction:rtl}
 .team-card:nth-child(even) > *{direction:ltr}
 .team-photo{
   width:100%;aspect-ratio:3/4;
@@ -742,7 +743,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
   }
 
   /* ---- VIDEO MANAGER: Intersection Observer + max 3 playing ---- */
-  const MAX_PLAYING = 3;
+  const MAX_PLAYING = 6;
   const playingVideos = new Set();
 
   function startVideo(video) {
@@ -787,10 +788,13 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       }
     });
     // After processing all entries, start the top-most visible cards (up to MAX)
+    const viewportCenter = window.innerHeight / 2;
     const sorted = [...visibleCards].sort((a, b) => {
       const ra = a.getBoundingClientRect();
       const rb = b.getBoundingClientRect();
-      return ra.top - rb.top;
+      const distA = Math.abs((ra.top + ra.bottom) / 2 - viewportCenter);
+      const distB = Math.abs((rb.top + rb.bottom) / 2 - viewportCenter);
+      return distA - distB;
     });
     // Stop any playing that aren't in the top MAX visible
     const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
@@ -811,6 +815,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+  document.querySelectorAll('.team-card').forEach(el => fadeObserver.observe(el));
 
   /* ---- SMOOTH NAV HIGHLIGHTING ---- */
   const sections = document.querySelectorAll('section[id]');
