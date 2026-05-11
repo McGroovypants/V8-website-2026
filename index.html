@@ -104,7 +104,7 @@ nav a:hover,nav a.active{color:#fff}
 /* ============ HERO ============ */
 .hero{
   min-height:100vh;display:flex;align-items:flex-end;justify-content:center;
-  text-align:center;padding:120px 24px 60px;
+  text-align:center;padding:180px 24px 60px;
   position:relative;overflow:hidden;
 }
 .hero-video-bg{
@@ -151,18 +151,26 @@ nav a:hover,nav a.active{color:#fff}
 /* ============ SECTIONS ============ */
 section{padding:100px 0}
 .section-label{
-  text-transform:uppercase;font-size:0.8rem;font-weight:600;
+  text-transform:uppercase;font-size:1.6rem;font-weight:600;
   letter-spacing:0.15em;color:var(--accent);margin-bottom:12px;
 }
 .section-title{
   font-size:clamp(2.8rem,7vw,5rem);font-weight:700;
-  margin-bottom:24px;line-height:1.1;
+  margin-bottom:24px;line-height:1.1;white-space:nowrap;
 }
 .section-subtitle{
-  font-size:1.05rem;color:var(--text-muted);
-  max-width:600px;line-height:1.7;margin-bottom:48px;
+  font-size:1.4rem;color:var(--text-muted);
+  max-width:700px;line-height:1.7;margin-bottom:48px;
 }
 .section-header{text-align:center;margin-bottom:60px}
+.logo-carousel{overflow:hidden;padding:40px 0;position:relative}
+.logo-carousel::before,.logo-carousel::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.logo-carousel::before{left:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 100%)}
+.logo-carousel::after{right:0;background:linear-gradient(270deg,var(--bg) 0%,transparent 100%)}
+.logo-track{display:flex;gap:60px;align-items:center;animation:logoScroll 40s linear infinite;width:max-content}
+.logo-track img{height:50px;width:auto;opacity:0.7;filter:grayscale(100%);transition:opacity 0.3s,filter 0.3s}
+.logo-track img:hover{opacity:1;filter:grayscale(0%)}
+@keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .section-header .section-subtitle{margin:0 auto 48px}
 
 /* ============ SERVICES GRID ============ */
@@ -671,9 +679,32 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <h2 class="section-title">Who We Work With</h2>
       <p class="section-subtitle">We collaborate with a diverse range of clients from small startups to large enterprises, across private, public, and Government sectors. No matter your industry or scale, we're here to help you achieve your goals.</p>
     </div>
-    <!-- Client logos grid - placeholder -->
-    <div style="text-align:center;padding:40px;background:var(--bg-card);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.04)">
-      <span style="color:var(--text-muted);font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em">Client logos placeholder</span>
+    <div class="logo-carousel">
+      <div class="logo-track">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/water_safety_vgusg0.png" alt="Water Safety NZ" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/waka_kotahi_rx8zli.png" alt="Waka Kotahi" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/Univ_Ak_futhfv.png" alt="University of Auckland" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/Urban_a9ea9q.png" alt="Urban" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/tui_q454zv.png" alt="Tui" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/TRM_ny7a6q.png" alt="TRM" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/Tiaki_wqbhxd.png" alt="Tiaki" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/stats_rb6geq.png" alt="Stats NZ" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/stats_2_jgkr2l.png" alt="Stats NZ 2" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/silk_ytl1ty.png" alt="Silk" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/ospri_so5lzc.png" alt="OSPRI" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/NZSAR_zepmht.png" alt="NZSAR" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/Oceania_x3bd1a.png" alt="Oceania" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/MFAT_qk6g7f.png" alt="MFAT" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/MFB_ctcftu.png" alt="MFB" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/MB2_wuwsvz.png" alt="Maritime NZ" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/NZSTA_syekk4.png" alt="NZSTA" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/BB_xhpe11.png" alt="BB" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/Ak_Ccikl_vnwuhw.png" alt="Auckland Council" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/MB_mh35y6.png" alt="MB" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/GS1_lc9w1d.png" alt="GS1" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/Chamber_zji5mt.png" alt="Chamber of Commerce" loading="lazy">
+        <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_200,q_auto,f_auto/coastguard_lvmlsy.png" alt="Coastguard" loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -709,6 +740,13 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 <script>
 (function(){
   'use strict';
+
+  // Clone logo track for seamless infinite scroll
+  const logoTrack = document.querySelector('.logo-track');
+  if (logoTrack) {
+    const logos = logoTrack.innerHTML;
+    logoTrack.innerHTML = logos + logos;
+  }
 
   // Theme toggle
   if (localStorage.getItem('v8-theme') === 'light') document.documentElement.classList.add('light');
@@ -800,7 +838,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
     playingVideos.forEach(v => { if (!toPlay.has(v)) stopVideo(v); });
     toPlay.forEach(v => startVideo(v));
-  }, { threshold: 0.01, rootMargin: '500px 0px' });
+  }, { threshold: 0.01, rootMargin: '800px 0px' });
 
   document.querySelectorAll('.card-video-wrap video').forEach(v => videoObserver.observe(v));
 
