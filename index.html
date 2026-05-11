@@ -11,6 +11,7 @@
 <style>
 /* ============ RESET & BASE ============ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
 :root{
   --bg:#0a0a0a;
   --bg-card:#141414;
@@ -63,7 +64,7 @@ header{
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,0.06);
-  transition:background var(--transition);
+  transition:background var(--transition),transform 0.3s ease;
 }
 .header-inner{
   display:flex;flex-direction:row;align-items:center;justify-content:space-between;
@@ -100,7 +101,13 @@ nav a:hover,nav a.active{color:#fff}
   nav.open{right:0}
   nav a{font-size:1.2rem}
   .hero{min-height:60vh;padding:100px 20px 40px}
-  section{padding:48px 0}
+  section{padding:36px 0}
+  .section-header{margin-bottom:24px}
+  .section-title{font-size:clamp(1.6rem,5vw,2.4rem)}
+  .section-label{font-size:1.1rem}
+  .section-subtitle{font-size:1.05rem;margin-bottom:24px}
+  .logo{max-width:200px}
+  header.header-hidden{transform:translateY(-100%)}
 }
 
 /* ============ HERO ============ */
@@ -158,7 +165,7 @@ section{padding:80px 0}
 }
 .section-title{
   font-size:clamp(2.8rem,7vw,5rem);font-weight:700;
-  margin-bottom:24px;line-height:1.1;white-space:nowrap;
+  margin-bottom:24px;line-height:1.1;
 }
 .section-subtitle{
   font-size:1.4rem;color:var(--text-muted);
@@ -170,7 +177,7 @@ section{padding:80px 0}
 .logo-carousel::before{left:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 100%)}
 .logo-carousel::after{right:0;background:linear-gradient(270deg,var(--bg) 0%,transparent 100%)}
 .logo-track{display:flex;gap:60px;align-items:center;animation:logoScroll 40s linear infinite;width:max-content}
-.logo-track img{height:50px;width:auto;opacity:0.85;filter:grayscale(0%);transition:opacity 0.3s}
+.logo-track img{height:60px;width:auto;opacity:0.85;filter:grayscale(0%);transition:opacity 0.3s}
 .logo-track img:hover{opacity:1}
 @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .section-header .section-subtitle{margin:0 auto 48px}
@@ -261,6 +268,7 @@ section{padding:80px 0}
 
 @media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:580px){.services-grid{grid-template-columns:1fr}}
+@media(max-width:900px) and (orientation:landscape){.services-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* ============ ABOUT ============ */
 #about{background:var(--bg)}
@@ -454,7 +462,12 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     <div class="services-grid" id="services-grid">
 
       <!-- 1. Air & Sea Filming -->
-      <div class="service-card fade-in" data-v8-service="air-sea">
+      <div class="service-card fade-in" data-v8-service="air-sea"
+        data-modal-title="Air &amp; Sea Filming"
+        data-modal-subtitle="Cinematic aerial and underwater filming that brings a distinctive edge to any production."
+        data-modal-text="With certified CAA drone pilots and expertise in helicopter and UAV operations, Vision8 delivers epic aerial vistas and expert subject tracking. Our knowledge of flight rules and regulations enables us to undertake complex projects safely and effectively.||Beneath the surface, our diving and photography expertise brings vibrant underwater life to every production. From marine environments to rough weather boat shoots, we plan and execute quality filming for both aerial and underwater photography."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_sky_and_water_Reel_1_xr9rvh.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_sky_and_water_Reel_1_xr9rvh.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_sky_and_water_Reel_1_uzx4vi.jpg"
@@ -465,12 +478,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-1">Air & Sea Filming</h3>
           <p data-v8-field="service-desc-1">Aerial and underwater filming add both unique and cinematic views that elevate any story.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
       <!-- 2. Marketing & Engagement -->
-      <div class="service-card fade-in" data-v8-service="marketing">
+      <div class="service-card fade-in" data-v8-service="marketing"
+        data-modal-title="Marketing &amp; Engagement"
+        data-modal-subtitle="Strategic, imaginative campaigns from concept to delivery for marketing teams."
+        data-modal-text="Vision8 has deep experience working with clients and agencies, using visual storytelling techniques to create memorable and emotive marketing, branding, and engagement campaigns across multiple media channels.||Using professional gear, smart production management, and quality control systems, Vision8 seamlessly partners with management teams or comms and marketing departments to instantly add value."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Corp_Comms_Reels_1_czh0mh.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Corp_Comms_Reels_1_czh0mh.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Corp_Comms_Reels_1_czh0mh.jpg"
@@ -481,12 +499,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-2">Marketing & Engagement Videos</h3>
           <p data-v8-field="service-desc-2">From concept to delivery, we provide marketing teams with campaigns that are strategic, imaginative, and cost-effective.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
       <!-- 3. Te Ao Maori & Pasifika -->
-      <div class="service-card fade-in" data-v8-service="te-ao-maori">
+      <div class="service-card fade-in" data-v8-service="te-ao-maori"
+        data-modal-title="Te Ao Māori &amp; Pasifika"
+        data-modal-subtitle="Honouring Indigenous culture by understanding the importance of doing things the right way."
+        data-modal-text="Vision8 works in partnership with Tangata whenua, Kaihautu, and Tautai to get to the heart of any story before it is told. This ensures stories are shared in a way that honours their origins, whether for Whakaata Māori, TVNZ, international broadcasters, or online audiences.||The team consults with government ministries, NGOs, and Māori and Pasifika organisations to tell stories that resonate with many audiences."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Te_Ao_Maori_Reel_1_ihohmr.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Te_Ao_Maori_Reel_1_ihohmr.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Te_Ao_Maori_Reel_1_ck0nsf.jpg"
@@ -497,7 +520,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-3">Te Ao Maori & Pasifika</h3>
           <p data-v8-field="service-desc-3">Honouring Indigenous culture means understanding the importance of doing things the right way.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
@@ -523,7 +546,12 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       </div>
 
       <!-- 5. Food Filming -->
-      <div class="service-card fade-in" data-v8-service="food">
+      <div class="service-card fade-in" data-v8-service="food"
+        data-modal-title="Food Filming &amp; Styling"
+        data-modal-subtitle="Transforming the taste and vibrancy of food into mouthwatering visuals."
+        data-modal-text="Experience filming food matters. It takes expertise in timing, lighting, focus, and a knowledge of food styling to capture dishes at their best.||Vision8 brings experience and quality control to any food shoot. Andy and his team have directed food content for NZ Beef &amp; Lamb, McDonald&#x27;s TV commercials, Nadia&#x27;s Kitchen, Kai Ora, and many other food clients."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Food_Reel_1_jxkrsc.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Food_Reel_1_jxkrsc.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Food_Reel_1_pn4hog.jpg"
@@ -534,12 +562,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-5">Food Filming & Styling</h3>
           <p data-v8-field="service-desc-5">Capturing the taste, colour, and scrumptiousness of food on camera is an art form.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
       <!-- 6. Motion Graphics & Animation -->
-      <div class="service-card fade-in" data-v8-service="motion">
+      <div class="service-card fade-in" data-v8-service="motion"
+        data-modal-title="Motion Graphics &amp; Animation"
+        data-modal-subtitle="Polished motion graphics that give branding, logos, and titles a professional edge."
+        data-modal-text="Motion graphics along with 2D and 3D animation increase watch time and retention. They elevate storytelling, clarify complex ideas, and enhance brand identity.||Vision8 has been an industry leader in creating visuals for broadcast TV and corporate video for over 20 years, delivering polished animated content that makes brands stand out."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Animation_Motion_Gfx_h0emew.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Animation_Motion_Gfx_h0emew.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Animation_Motion_Gfx_h0emew.jpg"
@@ -550,12 +583,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-6">Motion Graphics & Animation</h3>
           <p data-v8-field="service-desc-6">Motion graphics and animation add professionalism and a winning edge to branding, logos, and titles.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
       <!-- 7. Explainer Videos -->
-      <div class="service-card fade-in" data-v8-service="explainer">
+      <div class="service-card fade-in" data-v8-service="explainer"
+        data-modal-title="Explainer Videos"
+        data-modal-subtitle="Clarify complex topics with explainer videos that make stories easier to understand."
+        data-modal-text="Explainer videos create powerful visual explanations of complex things, machinery, and working models. They turn difficult concepts into clear, engaging narratives anyone can follow.||Vision8 has a longstanding reputation for building excellent quality explainer videos using a combination of 2D, 3D, motion graphics, animation, AI generation, and editing."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision_8_Explainer_videos_reel_nkyotq.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision_8_Explainer_videos_reel_nkyotq.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision_8_Explainer_videos_reel_nkyotq.jpg"
@@ -566,12 +604,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-7">Explainer Videos</h3>
           <p data-v8-field="service-desc-7">Create precise, detailed working models or clarify complex topics with explainer videos that make stories easier to understand.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
       <!-- 8. Testimonial Videos -->
-      <div class="service-card fade-in" data-v8-service="testimonials">
+      <div class="service-card fade-in" data-v8-service="testimonials"
+        data-modal-title="Testimonial Videos"
+        data-modal-subtitle="Your clients, customers, and staff are the best ambassadors of your brand."
+        data-modal-text="Vision8 has vast experience filming interviews and capturing testimonies from the people who matter most. We work hard to get everyday people comfortable on camera, drawing out compelling stories that connect.||We then edit the best content into visual gold — telling your story, enhancing your reputation, and letting authentic voices carry your message."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Testimonials_Reels_V1_fkjbxl.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Testimonials_Reels_V1_fkjbxl.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Testimonials_Reels_V1_udukwv.jpg"
@@ -582,12 +625,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-8">Testimonial Videos</h3>
           <p data-v8-field="service-desc-8">Your clients, customers, staff, stakeholders, and of course, you, are the best ambassadors of your brand and message.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
       <!-- 9. Photography -->
-      <div class="service-card fade-in" data-v8-service="photography">
+      <div class="service-card fade-in" data-v8-service="photography"
+        data-modal-title="Photography"
+        data-modal-subtitle="Capture stunning images with experienced photographers on every shoot."
+        data-modal-text="While Vision8&#x27;s primary focus is creating great video, all team members are experienced photographers. Whether it&#x27;s events, internal communications, headshots, promotional shots, or website images, it makes sense to capture quality photos alongside video.||With quality camera technology and super sharp lenses, we always get the best out of any situation to create lasting images and capture the greatest of memories."
+        data-modal-video=""
+        data-modal-poster="">
         <div class="card-video-wrap photo-slideshow">
           <img class="slide active" src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_720,q_auto,f_auto/Screen_Shot_2019-02-15_at_9.19.24_PM_gdnovh.jpg" alt="Vision8 Photography" loading="lazy">
           <img class="slide" src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_720,q_auto,f_auto/IMGC9782_boak3q.jpg" alt="Vision8 Photography" loading="lazy">
@@ -603,7 +651,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-9">Photography</h3>
           <p data-v8-field="service-desc-9">Capture stunning images with our experienced photographers.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
@@ -780,6 +828,18 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 <script>
 (function(){
   'use strict';
+
+  // Header hide on scroll (mobile)
+  (function(){
+    const hdr = document.querySelector('header');
+    let lastY = 0;
+    window.addEventListener('scroll', function(){
+      const y = window.scrollY;
+      if (y > 120 && y > lastY) hdr.classList.add('header-hidden');
+      else hdr.classList.remove('header-hidden');
+      lastY = y;
+    }, {passive:true});
+  })();
 
   // Clone logo track for seamless infinite scroll
   const logoTrack = document.querySelector('.logo-track');
