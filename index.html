@@ -33,7 +33,7 @@ html.light {
   --text-muted:#555;
 }
 html.light .hero-overlay { background:linear-gradient(to bottom,rgba(255,255,255,0.3),rgba(248,249,250,0.95)) }
-html.light .site-header { background:rgba(248,249,250,0.95);border-bottom:1px solid #e0e0e0 }
+html.light .site-header { background:rgba(71,100,112,0.95);border-bottom:1px solid rgba(71,100,112,0.3) }
 html.light .card-video-wrap .placeholder { background:linear-gradient(135deg,#e8e8e8 0%,#ddd 100%);color:#888 }
 html.light footer { background:#1a1a1a }
 
@@ -59,7 +59,7 @@ img{max-width:100%;height:auto;display:block}
 /* ============ HEADER ============ */
 header{
   position:fixed;top:0;left:0;right:0;z-index:1000;
-  background:rgba(10,10,10,0.92);
+  background:rgba(71,100,112,0.95);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,0.06);
@@ -167,7 +167,7 @@ section{padding:100px 0}
 .section-header .section-subtitle{margin:0 auto 48px}
 
 /* ============ SERVICES GRID ============ */
-#services{background:linear-gradient(180deg,var(--bg) 0%,#0d0d0d 100%)}
+#services{background:var(--bg)}
 .services-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -239,7 +239,7 @@ section{padding:100px 0}
 @media(max-width:768px){.about-grid{grid-template-columns:1fr}}
 
 /* ============ TEAM ============ */
-#team{background:linear-gradient(180deg,var(--bg) 0%,#0d0d0d 100%)}
+#team{background:var(--bg)}
 .team-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:32px;
@@ -285,12 +285,12 @@ section{padding:100px 0}
 .testimonial-role{font-size:0.8rem;color:var(--text-muted)}
 
 /* ============ CLIENTS ============ */
-#clients{background:linear-gradient(180deg,#0d0d0d 0%,var(--bg) 100%)}
+#clients{background:var(--bg)}
 .clients-text{text-align:center;max-width:700px;margin:0 auto}
 
 /* ============ CONTACT ============ */
 #contact{
-  background:linear-gradient(180deg,var(--bg) 0%,#0f0f0f 100%);
+  background:var(--bg);
   text-align:center;
 }
 .contact-links{
@@ -794,7 +794,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
     playingVideos.forEach(v => { if (!toPlay.has(v)) stopVideo(v); });
     toPlay.forEach(v => startVideo(v));
-  }, { threshold: 0.1, rootMargin: '200px 0px' });
+  }, { threshold: 0.01, rootMargin: '500px 0px' });
 
   document.querySelectorAll('.card-video-wrap video').forEach(v => videoObserver.observe(v));
 
