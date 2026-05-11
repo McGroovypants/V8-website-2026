@@ -66,11 +66,11 @@ header{
   transition:background var(--transition);
 }
 .header-inner{
-  display:flex;align-items:center;justify-content:space-between;
-  max-width:var(--max-w);margin:0 auto;padding:16px 24px;
+  display:flex;flex-direction:column;align-items:center;
+  max-width:var(--max-w);margin:0 auto;padding:12px 24px 8px;
 }
-.logo{height:60px;width:auto}
-.logo-link{display:flex;align-items:center;gap:10px}
+.logo{width:80%;max-width:900px;height:auto}
+.logo-link{display:flex;align-items:center;justify-content:center;flex:1}
 nav{display:flex;align-items:center;gap:32px}
 nav a{
   color:var(--text-muted);font-size:0.9rem;font-weight:500;
@@ -241,27 +241,30 @@ section{padding:100px 0}
 /* ============ TEAM ============ */
 #team{background:var(--bg)}
 .team-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:32px;
+  display:flex;flex-direction:column;gap:64px;
 }
 .team-card{
-  background:var(--bg-card);border-radius:var(--radius);overflow:hidden;
-  border:1px solid rgba(255,255,255,0.04);
-  transition:transform var(--transition);
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+  transition:opacity 0.6s ease;
 }
-.team-card:hover{transform:translateY(-4px)}
+.team-card:nth-child(even){direction:rtl}
+.team-card:nth-child(even) > *{direction:ltr}
 .team-photo{
-  width:100%;aspect-ratio:1;object-fit:cover;
-  background:linear-gradient(135deg,#1a1a1a,#222);
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  width:100%;aspect-ratio:3/4;
+  border-radius:var(--radius);overflow:hidden;
+  background:linear-gradient(135deg,#e8e8e8,#ddd);
 }
-.team-photo img{width:100%;height:100%;object-fit:cover}
+.team-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .team-photo .placeholder-text{color:var(--text-muted);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em}
-.team-info{padding:24px}
-.team-info h3{font-size:1.1rem;font-weight:600;margin-bottom:4px}
-.team-info .role{font-size:0.85rem;color:var(--accent);font-weight:500;margin-bottom:12px}
-.team-info p{font-size:0.85rem;color:var(--text-muted);line-height:1.6}
+.team-info{padding:0}
+.team-info h3{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+.team-info .role{font-size:1rem;color:var(--accent);font-weight:600;margin-bottom:20px}
+.team-info p{font-size:1rem;color:var(--text-muted);line-height:1.8}
+@media(max-width:768px){
+  .team-card{grid-template-columns:1fr;gap:24px}
+  .team-card:nth-child(even){direction:ltr}
+  .team-info h3{font-size:1.3rem}
+}
 
 /* ============ TESTIMONIALS ============ */
 #testimonials{background:var(--bg)}
@@ -339,7 +342,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 <header>
   <div class="header-inner">
     <a href="#" class="logo-link" data-v8-field="logo">
-      <img class="logo" src="https://res.cloudinary.com/deyb4o5qz/image/upload/h_120,q_auto,f_auto/1_-_Vision8_LOGO_FINAL_website_2026B_rylcbj" alt="Vision8" />
+      <img class="logo" src="https://res.cloudinary.com/deyb4o5qz/image/upload/q_auto,f_auto/Vision8_LOGO_new_website_BW_l1ghnu" alt="Vision8" />
     </a>
     <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('nav').classList.toggle('open')">
       <span></span><span></span><span></span>
@@ -572,7 +575,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 
       <div class="team-card fade-in" data-v8-team="andy">
         <div class="team-photo">
-          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_400,q_auto,f_auto/Andy_tazlv6.jpg" alt="Andy McGrath" loading="lazy">
+          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Andy_tazlv6.jpg" alt="Andy McGrath" loading="lazy">
         </div>
         <div class="team-info">
           <h3 data-v8-field="team-name-1">Andy McGrath</h3>
@@ -583,7 +586,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 
       <div class="team-card fade-in" data-v8-team="duncan">
         <div class="team-photo">
-          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_400,q_auto,f_auto/Duncan_xgauyg.jpg" alt="Duncan McCann" loading="lazy">
+          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Duncan_xgauyg.jpg" alt="Duncan McCann" loading="lazy">
         </div>
         <div class="team-info">
           <h3 data-v8-field="team-name-2">Duncan McCann</h3>
@@ -594,7 +597,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 
       <div class="team-card fade-in" data-v8-team="gary">
         <div class="team-photo">
-          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_400,q_auto,f_auto/Gary_ygfld4.jpg" alt="Gary Leano" loading="lazy">
+          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Gary_ygfld4.jpg" alt="Gary Leano" loading="lazy">
         </div>
         <div class="team-info">
           <h3 data-v8-field="team-name-3">Gary Leano</h3>
@@ -605,7 +608,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 
       <div class="team-card fade-in" data-v8-team="kat">
         <div class="team-photo">
-          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_400,q_auto,f_auto/Kat_ljp1ow.jpg" alt="Kat Greagar" loading="lazy">
+          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Kat_ljp1ow.jpg" alt="Kat Greagar" loading="lazy">
         </div>
         <div class="team-info">
           <h3 data-v8-field="team-name-4">Kat Greagar</h3>
@@ -616,7 +619,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
 
       <div class="team-card fade-in" data-v8-team="jeramiah">
         <div class="team-photo">
-          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_400,q_auto,f_auto/Jeramiah_abo1wn.jpg" alt="Jeramiah Ross" loading="lazy">
+          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Jeramiah_abo1wn.jpg" alt="Jeramiah Ross" loading="lazy">
         </div>
         <div class="team-info">
           <h3 data-v8-field="team-name-5">Jeramiah Ross</h3>
