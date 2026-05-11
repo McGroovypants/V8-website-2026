@@ -100,7 +100,8 @@ nav a:hover,nav a.active{color:#fff}
   }
   nav.open{right:0}
   nav a{font-size:1.2rem}
-  .hero{min-height:60vh;padding:100px 20px 40px}
+  .hero{min-height:unset;aspect-ratio:16/9;padding:0 20px 24px;width:100%}
+  .hero-video-bg video{object-fit:contain;background:#000}
   section{padding:36px 0}
   .section-header{margin-bottom:24px}
   .section-title{font-size:clamp(1.6rem,5vw,2.4rem)}
@@ -333,6 +334,11 @@ section{padding:80px 0}
   background:var(--bg-card);border-radius:var(--radius);padding:32px;
   border:1px solid rgba(255,255,255,0.04);position:relative;
 }
+.testimonial-card::before{
+  content:'\201C';position:absolute;top:16px;left:24px;
+  font-size:5rem;color:var(--accent);opacity:0.25;line-height:1;font-family:Georgia,serif;
+  pointer-events:none;
+}
 .testimonial-card::after{
   content:'\201D';position:absolute;bottom:24px;right:24px;
   font-size:5rem;color:var(--accent);opacity:0.25;line-height:1;font-family:Georgia,serif;
@@ -455,7 +461,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="stat"><div class="stat-number">9</div><div class="stat-label">Specialist services</div></div>
         <div class="stat"><div class="stat-number">100%</div><div class="stat-label">NZ owned</div></div>
       </div>
-      <p class="section-subtitle" data-v8-field="about-text">Vision8 is a nimble and creative company with 25 years of industry experience crafting commercials, campaigns, TV series, corporate communications, and social media content -- our team works in partnership with yours to understand your audience and bring messaging to life with inspirational, professional video communications.</p>
+      <p class="section-subtitle" data-v8-field="about-text">Vision8 is a nimble and creative company with 25 years of industry experience crafting commercials, campaigns, TV series, corporate communications, and social media content. Our team works in partnership with yours to understand your audience and bring messaging to life with inspirational, professional video communications.</p>
     </div>
     <div class="about-visual">
       <video muted loop playsinline autoplay
