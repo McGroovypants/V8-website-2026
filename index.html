@@ -73,11 +73,11 @@ header{
 .logo-link{display:flex;align-items:center;justify-content:center;flex:1}
 nav{display:flex;align-items:center;gap:32px}
 nav a{
-  color:var(--text-muted);font-size:0.9rem;font-weight:500;
+  color:rgba(255,255,255,0.75);font-size:1.35rem;font-weight:500;
   letter-spacing:0.02em;transition:color var(--transition);
   text-transform:uppercase;
 }
-nav a:hover,nav a.active{color:var(--white)}
+nav a:hover,nav a.active{color:#fff}
 .nav-cta{
   background:var(--accent);color:var(--white)!important;
   padding:10px 24px;border-radius:100px;font-weight:600;
@@ -98,13 +98,13 @@ nav a:hover,nav a.active{color:var(--white)}
     transition:right var(--transition);
   }
   nav.open{right:0}
-  nav a{font-size:1.1rem}
+  nav a{font-size:1.2rem}
 }
 
 /* ============ HERO ============ */
 .hero{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:120px 24px 80px;
+  min-height:100vh;display:flex;align-items:flex-end;justify-content:center;
+  text-align:center;padding:120px 24px 60px;
   position:relative;overflow:hidden;
 }
 .hero-video-bg{
@@ -368,9 +368,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     </video>
   </div>
   <div class="hero-content">
-    <p class="section-label">Wellington, New Zealand</p>
     <h1 data-v8-field="hero-title">Authentic Video That Activates Your Audience</h1>
-    <p data-v8-field="hero-subtitle">Vision8 is a boutique video agency based in Te Whanganui-a-Tara, Wellington. We specialise in creating authentic, memorable videos to communicate your vision, activate your audience and celebrate your success.</p>
     <a href="#services" class="hero-cta">Explore Our Services</a>
   </div>
 </section>
