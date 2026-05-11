@@ -176,8 +176,9 @@ section{padding:100px 0}
   display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#1a1a1a 0%,#222 100%);
   color:var(--text-muted);font-size:0.8rem;letter-spacing:0.1em;
-  text-transform:uppercase;
+  text-transform:uppercase;transition:opacity 0.6s ease;
 }
+.card-video-wrap.is-playing .placeholder{opacity:0;pointer-events:none}
 .card-body{padding:24px}
 .card-body h3{font-size:1.15rem;font-weight:600;margin-bottom:8px}
 .card-body p{font-size:0.9rem;color:var(--text-muted);line-height:1.6;margin-bottom:16px}
@@ -729,17 +730,29 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     }
   }
 
+  const visibleCards = new Set();
+
   const videoObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const video = entry.target;
       if (entry.isIntersecting) {
-        startVideo(video);
-        enforceLimit();
+        visibleCards.add(video);
       } else {
+        visibleCards.delete(video);
         stopVideo(video);
       }
     });
-  }, { threshold: 0.3 });
+    // After processing all entries, start the top-most visible cards (up to MAX)
+    const sorted = [...visibleCards].sort((a, b) => {
+      const ra = a.getBoundingClientRect();
+      const rb = b.getBoundingClientRect();
+      return ra.top - rb.top;
+    });
+    // Stop any playing that aren't in the top MAX visible
+    const toPlay = new Set(sorted.slice(0, MAX_PLAYING));
+    playingVideos.forEach(v => { if (!toPlay.has(v)) stopVideo(v); });
+    toPlay.forEach(v => startVideo(v));
+  }, { threshold: 0.25 });
 
   document.querySelectorAll('.card-video-wrap video').forEach(v => videoObserver.observe(v));
 
