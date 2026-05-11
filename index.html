@@ -221,6 +221,44 @@ section{padding:80px 0}
 .card-link svg{width:16px;height:16px;transition:transform var(--transition)}
 .card-link:hover svg{transform:translateX(3px)}
 
+/* ============ SERVICE DETAIL MODAL ============ */
+.service-modal-overlay{
+  position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity 0.3s ease;
+}
+.service-modal-overlay.open{opacity:1;pointer-events:auto}
+.service-modal{
+  background:var(--bg-card);border-radius:var(--radius);max-width:900px;width:100%;
+  max-height:90vh;overflow-y:auto;position:relative;
+  transform:translateY(30px);transition:transform 0.3s ease;
+}
+.service-modal-overlay.open .service-modal{transform:translateY(0)}
+.service-modal-close{
+  position:absolute;top:16px;right:16px;z-index:2;
+  background:rgba(0,0,0,0.5);border:none;color:#fff;width:40px;height:40px;
+  border-radius:50%;font-size:1.4rem;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;transition:background 0.2s;
+}
+.service-modal-close:hover{background:rgba(0,0,0,0.8)}
+.service-modal video{width:100%;display:block;border-radius:var(--radius) var(--radius) 0 0}
+.service-modal-body{padding:32px 40px 40px}
+.service-modal-body h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;margin-bottom:8px}
+.service-modal-body .modal-subtitle{
+  font-size:1.1rem;color:var(--accent);font-weight:600;margin-bottom:20px;line-height:1.4;
+}
+.service-modal-body .modal-text{font-size:1rem;line-height:1.8;color:var(--text-muted)}
+.service-modal-body .modal-text p{margin-bottom:16px}
+.service-modal-body .modal-cta{
+  display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+  background:var(--accent);color:#fff;padding:12px 28px;border-radius:var(--radius);
+  font-weight:600;text-decoration:none;transition:background 0.2s;
+}
+.service-modal-body .modal-cta:hover{background:var(--accent-hover)}
+@media(max-width:600px){
+  .service-modal-body{padding:24px 20px 28px}
+}
+
 @media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:580px){.services-grid{grid-template-columns:1fr}}
 
@@ -464,7 +502,12 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       </div>
 
       <!-- 4. Corporate Comms -->
-      <div class="service-card fade-in" data-v8-service="corporate">
+      <div class="service-card fade-in" data-v8-service="corporate"
+        data-modal-title="Corporate Comms Videos"
+        data-modal-subtitle="Engaging video makes learning quicker, easier, and more memorable."
+        data-modal-text="Every industry needs ongoing support and training for staff and managers. Vision8 has extensive experience working with HR and Comms teams to create engaging and informative videos for Health and Safety, HR induction, specific training, culture change, and professional development.||Whether you need a series of short training modules or a single high-impact internal campaign, our team will guide you from concept through to delivery, ensuring your message is clear, professional, and memorable."
+        data-modal-video="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_Corp_Comms_Reels_1_czh0mh.mp4"
+        data-modal-poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto,so_0/Vision8_Corp_Comms_Reels_1_czh0mh.jpg">
         <div class="card-video-wrap">
           <video muted loop playsinline preload="none"
             poster="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto,so_0/Vision8_Corp_Comms_Reels_1_czh0mh.jpg"
@@ -475,7 +518,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         <div class="card-body">
           <h3 data-v8-field="service-title-4">Corporate Comms Videos</h3>
           <p data-v8-field="service-desc-4">Staff learn faster with engaging video. Bring out the best in your organisation with great corporate communications.</p>
-          <a href="#contact" class="card-link">Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#" class="card-link" data-open-modal>Find out more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
@@ -905,6 +948,78 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     }, 3000);
   });
 
+})();
+</script>
+
+<!-- Service Detail Modal -->
+<div class="service-modal-overlay" id="serviceModal">
+  <div class="service-modal">
+    <button class="service-modal-close" aria-label="Close">&times;</button>
+    <video id="modalVideo" muted loop playsinline></video>
+    <div class="service-modal-body">
+      <h2 id="modalTitle"></h2>
+      <p class="modal-subtitle" id="modalSubtitle"></p>
+      <div class="modal-text" id="modalText"></div>
+      <a href="#contact" class="modal-cta" id="modalCta">Get in touch <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const overlay = document.getElementById('serviceModal');
+  const modalVideo = document.getElementById('modalVideo');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSubtitle = document.getElementById('modalSubtitle');
+  const modalText = document.getElementById('modalText');
+
+  // open modal from any card-link with data-open-modal
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('[data-open-modal]');
+    if (!link) return;
+    e.preventDefault();
+    const card = link.closest('.service-card');
+    if (!card) return;
+
+    modalTitle.textContent = card.dataset.modalTitle || '';
+    modalSubtitle.textContent = card.dataset.modalSubtitle || '';
+
+    // paragraphs split by ||
+    const text = card.dataset.modalText || '';
+    modalText.innerHTML = text.split('||').map(p => '<p>' + p.trim() + '</p>').join('');
+
+    // video
+    if (card.dataset.modalVideo) {
+      modalVideo.poster = card.dataset.modalPoster || '';
+      modalVideo.src = card.dataset.modalVideo;
+      modalVideo.style.display = 'block';
+      modalVideo.play().catch(()=>{});
+    } else {
+      modalVideo.style.display = 'none';
+    }
+
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // close modal
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+  }
+
+  overlay.querySelector('.service-modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  // close modal if CTA is clicked
+  document.getElementById('modalCta').addEventListener('click', closeModal);
 })();
 </script>
 
