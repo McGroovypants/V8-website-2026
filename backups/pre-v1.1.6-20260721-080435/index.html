@@ -55,26 +55,10 @@ header{
 .logo-link{display:flex;grid-column:1;align-items:center;justify-self:start;flex-shrink:0}
 nav{grid-column:3;justify-self:end}
 /* brand hero */
-.brand-hero{position:relative;min-height:72vh;padding:68px 0 0;overflow:hidden;background:#111}
-.hero-media{position:relative;display:flex;align-items:center;justify-content:center;min-height:calc(72vh - 68px)}
-.brand-hero .hero-logo{
-  position:relative;z-index:2;width:min(60vw,520px);height:auto;
-  animation:heroLogoIntro 4s ease-in-out forwards;
-}
-.brand-hero .hero-video{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity 0.8s ease;
-}
-.brand-hero.video-active .hero-video{opacity:1}
-.brand-hero.final-logo .hero-logo{animation:none;opacity:1;transform:scale(1.08)}
-@keyframes heroLogoIntro{
-  0%{opacity:1;transform:scale(0.96)}
-  80%{opacity:1;transform:scale(1.06)}
-  100%{opacity:0;transform:scale(1.08)}
-}
+.brand-hero{display:flex;align-items:center;justify-content:center;min-height:72vh;padding:130px 24px 48px}
+.brand-hero .hero-logo{width:min(60vw,520px);height:auto}
 @media(max-width:768px){
-  .brand-hero{min-height:56vh}
-  .hero-media{min-height:calc(56vh - 68px)}
+  .brand-hero{min-height:56vh;padding:104px 16px 32px}
   .brand-hero .hero-logo{width:min(78vw,340px)}
 }
 .build-version{
@@ -239,6 +223,15 @@ section{padding:80px 0}
 #about .section-title{font-size:clamp(1.9rem,5vw,3.5rem)}
 .about-text{text-align:center;margin:0 auto}
 .about-text .section-subtitle{max-width:none;width:100%;margin:0 0 24px;font-size:1.15rem;line-height:1.7;text-align:center}
+.about-visual{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  aspect-ratio:16/9;background:#111;margin-top:40px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,0.04);
+}
+.about-visual video{
+  width:100%;height:100%;object-fit:cover;
+}
 
 /* ============ TEAM ============ */
 #team{background:var(--bg)}
@@ -379,22 +372,24 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     </nav>
   </div>
 </header>
-<div class="build-version" aria-label="Website build version">Build v1.1.6</div>
+<div class="build-version" aria-label="Website build version">Build v1.1.5</div>
 
 <!-- ============ BRAND HERO ============ -->
 <section id="hero" class="brand-hero">
-  <div class="hero-media">
-    <img class="hero-logo" data-v8-img="hero-logo" src="assets/vision8-logo-white.png" alt="Vision8">
-    <video class="hero-video" muted playsinline preload="auto" src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_2025_Reel_HEADER_2_j12y5e.mp4"></video>
-  </div>
+  <img class="hero-logo" data-v8-img="hero-logo" src="assets/vision8-transparent-v1.1.png" alt="Vision8">
 </section>
 
-<!-- ============ INTRODUCTION ============ -->
+<!-- ============ ABOUT ============ -->
 <section id="about">
   <div class="container">
     <div class="about-text">
+      <p class="section-label">About Us</p>
       <h2 class="section-title" data-v8-field="about-title">Premium Video Production Services</h2>
       <p class="section-subtitle" data-v8-field="about-text">Vision8 is a nimble and creative company with 25 years of industry experience crafting commercials, campaigns, TV series, corporate communications, and social media content. Our team works in partnership with yours to understand your audience and bring messaging to life with inspirational, professional video communications.</p>
+    </div>
+    <div class="about-visual">
+      <video muted="" loop="" playsinline="" autoplay="" src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_720,q_auto/Vision8_2025_Reel_HEADER_2_j12y5e.mp4">
+      </video>
     </div>
   </div>
 </section>
@@ -719,24 +714,6 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       lastY = y;
     }, {passive:true});
   })();
-
-  // Play the hero sequence once: logo zoom, reel, then held logo.
-  const hero = document.querySelector('.brand-hero');
-  const heroVideo = hero?.querySelector('.hero-video');
-  if (hero && heroVideo) {
-    const holdLogo = () => {
-      hero.classList.remove('video-active');
-      hero.classList.add('final-logo');
-    };
-    heroVideo.addEventListener('ended', holdLogo, { once: true });
-    heroVideo.addEventListener('error', holdLogo, { once: true });
-    window.setTimeout(() => {
-      heroVideo.currentTime = 0;
-      heroVideo.play().then(() => {
-        hero.classList.add('video-active');
-      }).catch(holdLogo);
-    }, 4000);
-  }
 
   // Clone logo track for seamless infinite scroll
   const logoTrack = document.querySelector('.logo-track');
