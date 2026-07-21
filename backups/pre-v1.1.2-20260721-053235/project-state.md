@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1.2, header alignment correction, 21 July 2026. Baseline remains v1.0.
+v1.1.1, header layout release, 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -56,13 +56,6 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Kept the mobile logo centred, with a visible right-side menu button and a header that remains visible during scrolling.
 - Updated both visible build labels to `v1.1.1`.
 - Snapshot: `backups/v1.1.1-header-layout/`.
-
-
-### v1.1.2, header alignment correction, in progress
-
-- Remove the desktop header container width limit so navigation reaches the page right edge while the grid keeps the logo geometrically centred.
-- Retain existing mobile header and menu behaviour.
-- Update both visible build labels to `v1.1.2`.
 
 ### v1.2, linked editing
 
