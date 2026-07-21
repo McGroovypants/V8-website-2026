@@ -25,7 +25,23 @@ html{overflow-x:hidden}
   --max-w:1200px;
 }
 
+html.light {
+  --bg:#f8f9fa;
+  --bg-card:#ffffff;
+  --bg-card-hover:#f0f0f0;
+  --text:#1a1a1a;
+  --text-muted:#555;
+}
+html.light .hero-overlay { background:transparent }
+html.light header { background:#000;border-bottom:1px solid rgba(255,255,255,0.16) }
+html.light .card-video-wrap .placeholder { background:linear-gradient(135deg,#e8e8e8 0%,#ddd 100%);color:#888 }
+html.light footer { background:#1a1a1a }
 
+.theme-toggle{background:none;border:1px solid var(--text-muted);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:all var(--transition)}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.theme-toggle .icon-moon{display:none}
+html.light .theme-toggle .icon-sun{display:none}
+html.light .theme-toggle .icon-moon{display:block}
 html{scroll-behavior:smooth;font-size:16px}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -90,6 +106,8 @@ nav a:hover,nav a.active{color:#fff}
   }
   nav.open{right:0}
   nav a{font-size:1.2rem}
+  .hero{min-height:unset;aspect-ratio:16/9;padding:0 20px 24px;width:100%}
+  .hero-video-bg video{object-fit:contain;background:#000}
   section{padding:36px 0}
   .section-header{margin-bottom:24px}
   .section-title{font-size:clamp(1.6rem,5vw,2.4rem)}
@@ -97,6 +115,53 @@ nav a:hover,nav a.active{color:#fff}
   .section-subtitle{font-size:1.05rem;margin-bottom:24px}
   header.header-hidden{transform:none}
 }
+
+/* ============ HERO ============ */
+.hero{
+  min-height:100vh;display:flex;align-items:flex-end;justify-content:center;
+  text-align:center;padding:180px 24px 60px;
+  position:relative;overflow:hidden;
+}
+.hero-video-bg{
+  position:absolute;inset:0;z-index:0;
+  overflow:hidden;
+}
+.hero-video-bg video{
+  width:100%;height:100%;object-fit:cover;
+}
+.hero-video-bg::after{
+  content:'';position:absolute;inset:0;
+  background:transparent;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:2;max-width:800px;animation:heroFadeOut 1.5s ease 4s forwards}
+@keyframes heroFadeOut{to{opacity:0;transform:translateY(-20px);pointer-events:none}}
+.hero-content:hover,.hero-content.show{animation:none;opacity:1;transform:none}
+.hero-video-bg::after{transition:background 1.5s ease}
+.hero.text-faded .hero-video-bg::after{background:linear-gradient(180deg,rgba(10,10,10,0.2) 0%,rgba(10,10,10,0.5) 100%)}
+.hero h1{
+  font-size:clamp(1.2rem,2.8vw,2.2rem);font-weight:600;
+  line-height:1.2;margin-bottom:20px;
+  white-space:nowrap;
+  color:rgba(255,255,255,0.9);
+  text-shadow:0 2px 20px rgba(0,0,0,0.5);
+  letter-spacing:0.02em;
+}
+.hero p{
+  font-size:clamp(1rem,2vw,1.25rem);color:var(--text-muted);
+  max-width:600px;margin:0 auto 40px;line-height:1.7;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.5);color:#1a1a1a;
+  padding:16px 40px;border-radius:100px;font-weight:600;
+  font-size:1rem;letter-spacing:0.02em;border:none;cursor:pointer;
+  transition:background var(--transition),transform var(--transition);
+}
+.hero-cta:hover{background:rgba(255,255,255,0.75);transform:translateY(-2px);color:#1a1a1a}
 
 /* ============ SECTIONS ============ */
 section{padding:80px 0}
@@ -113,10 +178,10 @@ section{padding:80px 0}
   max-width:700px;line-height:1.7;margin-bottom:48px;
 }
 .section-header{text-align:center;margin-bottom:40px}
-.logo-carousel{overflow:hidden;padding:40px 0;position:relative;background:#fff}
+.logo-carousel{overflow:hidden;padding:40px 0;position:relative}
 .logo-carousel::before,.logo-carousel::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
-.logo-carousel::before{left:0;background:linear-gradient(90deg,#fff 0%,transparent 100%)}
-.logo-carousel::after{right:0;background:linear-gradient(270deg,#fff 0%,transparent 100%)}
+.logo-carousel::before{left:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 100%)}
+.logo-carousel::after{right:0;background:linear-gradient(270deg,var(--bg) 0%,transparent 100%)}
 .logo-track{display:flex;gap:60px;align-items:center;animation:logoScroll 40s linear infinite;width:max-content}
 .logo-track img{height:60px;width:auto;opacity:0.85;filter:grayscale(0%);transition:opacity 0.3s}
 .logo-track img:hover{opacity:1}
@@ -358,14 +423,29 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <span></span><span></span><span></span>
     </button>
     <nav>
-      <a href="#about" class="active">Home</a>
+      <a href="#hero" class="active">Home</a>
       <a href="#services">Services</a>
       <a href="#team">Team</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode" title="Toggle theme">
+  <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>
+  <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+</button>
       <a href="#contact" class="nav-cta">Contact Us</a>
     </nav>
   </div>
 </header>
-<div class="build-version" aria-label="Website build version">Build v1.1.3</div>
+<div class="build-version" aria-label="Website build version">Build v1.1.2</div>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="hero">
+  <div class="hero-video-bg">
+    <video muted="" loop="" playsinline="" autoplay="" src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_2025_Reel_HEADER_2_j12y5e.mp4">
+    </video>
+  </div>
+  <div class="hero-content">
+    <a href="#services" class="hero-cta">Explore Our Services</a>
+  </div>
+</section>
 
 <!-- ============ ABOUT ============ -->
 <section id="about">
@@ -710,10 +790,37 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
     logoTrack.innerHTML = logos + logos;
   }
 
+  // Theme toggle
+  if (localStorage.getItem('v8-theme') === 'light') document.documentElement.classList.add('light');
+
+  function toggleTheme() {
+    document.documentElement.classList.toggle('light');
+    localStorage.setItem('v8-theme', document.documentElement.classList.contains('light') ? 'light' : 'dark');
+  }
+  window.toggleTheme = toggleTheme;
+
+
   /* ---- Mark cards with poster frames ---- */
   document.querySelectorAll('.card-video-wrap video[poster]').forEach(function(v){
     v.closest('.card-video-wrap')?.classList.add('has-poster');
   });
+
+  /* ---- HERO TEXT FADE: lighten overlay after text fades ---- */
+  const hero = document.querySelector('.hero');
+  const heroContent = document.querySelector('.hero-content');
+  if (hero && heroContent) {
+    // After CSS animation ends (4s delay + 1.5s anim = 5.5s), lighten overlay
+    setTimeout(function(){ hero.classList.add('text-faded'); }, 5500);
+    // On hover, bring text back and darken overlay
+    hero.addEventListener('mouseenter', function(){
+      heroContent.classList.add('show');
+      hero.classList.remove('text-faded');
+    });
+    hero.addEventListener('mouseleave', function(){
+      heroContent.classList.remove('show');
+      hero.classList.add('text-faded');
+    });
+  }
 
   /* ---- VIDEO MANAGER: Intersection Observer + max 3 playing ---- */
   const MAX_PLAYING = 6;

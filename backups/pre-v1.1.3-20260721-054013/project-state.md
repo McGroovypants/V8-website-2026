@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1.3, homepage and fixed dark theme, 21 July 2026. Baseline remains v1.0.
+v1.1.2, header alignment correction, 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: pending (`v1.1.3 remove homepage hero video and theme switch`)
+- Current delivery commit: `0575658` (`v1.1.2 align header navigation to page edge`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -64,14 +64,6 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Retain existing mobile header and menu behaviour.
 - Update both visible build labels to `v1.1.2`.
 - Snapshot: `backups/v1.1.2-header-alignment/`.
-
-### v1.1.3, homepage and fixed dark theme, completed
-
-- Removed the full-width homepage hero video and its CTA-only hero section. The Home navigation item now leads to About Us, the first remaining page section.
-- Removed the light-mode switch, all light-mode overrides and saved theme behaviour. The website now stays dark.
-- Set the client-logo scrolling strip to white, including its fade edges, while retaining the surrounding dark site design.
-- Updated both visible build labels to `v1.1.3`.
-- Snapshot: `backups/v1.1.3-homepage-dark-theme/`.
 
 ### v1.2, linked editing
 
