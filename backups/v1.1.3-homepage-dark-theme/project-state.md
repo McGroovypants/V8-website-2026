@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: pending (`v1.1.3 remove homepage hero video and theme switch`)
+- Current delivery commit: `2ff04c6` (`v1.1.3 remove hero video and lock dark theme`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
