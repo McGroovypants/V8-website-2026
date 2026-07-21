@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: `0575658` (`v1.1.2 align header navigation to page edge`)
+- Current delivery commit: `f3d098e` (`v1.1.1 centre logo and black header`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -58,12 +58,11 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Snapshot: `backups/v1.1.1-header-layout/`.
 
 
-### v1.1.2, header alignment correction, completed
+### v1.1.2, header alignment correction, in progress
 
 - Remove the desktop header container width limit so navigation reaches the page right edge while the grid keeps the logo geometrically centred.
 - Retain existing mobile header and menu behaviour.
 - Update both visible build labels to `v1.1.2`.
-- Snapshot: `backups/v1.1.2-header-alignment/`.
 
 ### v1.2, linked editing
 
