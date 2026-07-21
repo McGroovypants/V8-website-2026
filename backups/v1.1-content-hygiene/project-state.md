@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1, content hygiene release, 21 July 2026. Baseline remains v1.0.
+v1.0.1, visible build label added 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: pending v1.1 commit, based on `27f7d74`
+- Current baseline commit: `6255e37`
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -36,18 +36,15 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 
 ## Known defects and risks
 
-- Editor file uploads are embedded into the downloaded HTML. For optimised hosted assets, add them through the project workflow in VS Code.
-- The previously exposed publishing credential must be rotated and removed from any local Git remote configuration before the next production publishing session.
+- The current logo is an anchor treated as text, not an image. A pasted URL is therefore rendered as text, producing the blank logo area.
+- Image upload does not reliably persist its new asset URL into the generated site markup.
+- The editor currently contains a publishing credential. It must be removed from browser code and rotated before production use.
 
 ## Delivery stages
 
-### v1.1, content hygiene, completed
+### v1.1, content hygiene
 
-- Removed the four statistic cards and all related styling.
-- Converted the header logo from a text link to a real image field, with paste-URL and file controls in the editor.
-- Removed the browser-held publishing credential and direct GitHub publishing functions. The editor now loads the public site source and downloads a replacement `index.html` for VS Code commit and publishing.
-- Updated both visible build labels to `v1.1`.
-- Snapshot: `backups/v1.1-content-hygiene/`.
+Remove statistic cards; repair logo image URL and upload; remove the browser-held publishing credential; test preview and saved output.
 
 ### v1.2, linked editing
 

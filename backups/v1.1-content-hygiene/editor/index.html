@@ -532,7 +532,8 @@ body.col-resizing iframe { pointer-events: none; }
   <div class="gate-box">
     <h1>Vision8 Editor</h1>
     <p>Enter the access code to continue</p>
-    <p>This editor now works without a browser-held publishing credential.</p>
+    <input type="password" id="codeInput" class="gate-input" maxlength="10" placeholder="------" autocomplete="off">
+    <button class="gate-btn" onclick="checkCode()">Enter</button>
   </div>
 </div>
 
@@ -542,7 +543,7 @@ body.col-resizing iframe { pointer-events: none; }
     <div>
       <h2>Vision8 Editor</h2>
       <span class="site-name" id="siteLabel"></span>
-      <span class="editor-build-version" aria-label="Editor build version">Build v1.1</span>
+      <span class="editor-build-version" aria-label="Editor build version">Build v1.0.1</span>
     </div>
   </div>
   <div class="editor-body">
@@ -570,7 +571,7 @@ body.col-resizing iframe { pointer-events: none; }
     <span class="change-count" id="changeCount">No changes</span>
     <div>
       <button class="apply-btn" id="applyBtn" onclick="applyChanges()" disabled>Apply</button>
-      <button class="deploy-btn" id="downloadBtn" onclick="downloadSite()" disabled>Download index.html</button>
+      <button class="deploy-btn" id="deployBtn" onclick="deploySite()" disabled>Deploy Changes</button>
     </div>
   </div>
 </div>
@@ -604,18 +605,41 @@ body.col-resizing iframe { pointer-events: none; }
 // ==========================================
 // CONFIG
 // ==========================================
+const ACCESS_CODE_HASH = '415b00fda1f2414acea48f799b3b1a2d176fc9a9f41c25967c741560a6c50425';
+const ENCRYPTED_PAT = 'z/Tv60LuQA+ZsX7LrqEupdfXr4Yz+XVFCB0ZnZwIMfvpykcqYvEKEejaZ2vxXbWCcsIwIGczE5x5lHQ+3mZCHDFGMihRlfWitfHNxT8W8ejOkqEd';
 const OWNER = 'McGroovypants';
 const REPO = 'V8-website-2026';
 const FILE_PATH = 'index.html';
-const PUBLIC_SOURCE_URL = 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/main/' + FILE_PATH;
+
+// ==========================================
+// CRYPTO
+// ==========================================
+async function sha256(text) {
+  const data = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function decryptPat(accessCode) {
+  const blob = Uint8Array.from(atob(ENCRYPTED_PAT), c => c.charCodeAt(0));
+  const salt = blob.slice(0, 16);
+  const iv = blob.slice(16, 28);
+  const ciphertext = blob.slice(28);
+  const keyMaterial = await crypto.subtle.importKey('raw', new TextEncoder().encode(accessCode), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+  const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+  return new TextDecoder().decode(decrypted);
+}
 
 // ==========================================
 // STATE
 // ==========================================
 let state = {
+  pat: '',
   originalHtml: '',
   sections: [],
   selectedSectionId: null,
+  fileSha: '',
   pendingImageSwap: null
 };
 
@@ -656,6 +680,77 @@ function escapeAttr(str) {
 }
 
 // ==========================================
+// ACCESS CODE
+// ==========================================
+document.getElementById('codeInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkCode();
+});
+
+async function checkCode() {
+  var input = document.getElementById('codeInput');
+  var code = input.value;
+  var hash = await sha256(code);
+  if (hash === ACCESS_CODE_HASH) {
+    try {
+      var pat = await decryptPat(code);
+      state.pat = pat;
+      loadSite();
+    } catch(e) {
+      input.classList.add('error');
+      setTimeout(function() { input.classList.remove('error'); }, 400);
+      input.value = '';
+    }
+  } else {
+    input.classList.add('error');
+    setTimeout(function() { input.classList.remove('error'); }, 400);
+    input.value = '';
+  }
+}
+
+// ==========================================
+// GITHUB API
+// ==========================================
+async function ghFetch(path, options) {
+  options = options || {};
+  var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/' + path;
+  var headers = {
+    'Authorization': 'Bearer ' + state.pat,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  if (options.headers) {
+    Object.keys(options.headers).forEach(function(k) { headers[k] = options.headers[k]; });
+  }
+  var res = await fetch(url, { method: options.method || 'GET', headers: headers, body: options.body });
+  if (!res.ok) {
+    var body = await res.text();
+    throw new Error('GitHub API ' + res.status + ': ' + body);
+  }
+  return res.json();
+}
+
+async function fetchFile(path) {
+  var data = await ghFetch('contents/' + path);
+  var raw = atob(data.content.replace(/\n/g, ''));
+  var bytes = new Uint8Array(raw.length);
+  for (var i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+  var content = new TextDecoder('utf-8').decode(bytes);
+  return { content: content, sha: data.sha };
+}
+
+async function pushFile(path, content, message, sha) {
+  return ghFetch('contents/' + path, {
+    method: 'PUT',
+    body: JSON.stringify({
+      message: message,
+      content: btoa(unescape(encodeURIComponent(content))),
+      sha: sha,
+      branch: 'main'
+    })
+  });
+}
+
+// ==========================================
 // BLOB PREVIEW
 // ==========================================
 var currentBlobUrl = null;
@@ -677,7 +772,6 @@ function loadBlobPreview(html) {
 // ==========================================
 // Map data-v8 attributes to human-readable section names
 var SECTION_MAP = {
-  'site': { name: 'Site identity', icon: '' },
   'hero': { name: 'Hero', icon: '' },
   'about': { name: 'About', icon: '' },
   'services': { name: 'Services', icon: '' },
@@ -688,7 +782,6 @@ var SECTION_MAP = {
 };
 
 function inferSection(fieldName) {
-  if (fieldName === 'logo') return 'site';
   if (fieldName.startsWith('hero')) return 'hero';
   if (fieldName.startsWith('about')) return 'about';
   if (fieldName.startsWith('service')) return 'services';
@@ -765,7 +858,7 @@ function parseHtml(html) {
       attrValue: imgName,
       src: src,
       originalSrc: src,
-      newFileDataUrl: null,
+      newFileBase64: null,
       newFileName: null
     });
   });
@@ -785,7 +878,7 @@ function parseHtml(html) {
           selector: '[data-v8-team="' + memberKey + '"] .team-photo img',
           src: src,
           originalSrc: src,
-          newFileDataUrl: null,
+          newFileBase64: null,
           newFileName: null
         });
       }
@@ -793,7 +886,7 @@ function parseHtml(html) {
   });
 
   // Build ordered sections array
-  var order = ['site', 'hero', 'about', 'services', 'team', 'testimonials', 'clients', 'contact'];
+  var order = ['hero', 'about', 'services', 'team', 'testimonials', 'clients', 'contact'];
   var sections = [];
   order.forEach(function(key) {
     if (sectionData[key]) sections.push(sectionData[key]);
@@ -810,20 +903,19 @@ function parseHtml(html) {
 // LOAD SITE
 // ==========================================
 async function loadSite() {
-  showLoading('Fetching public site source...');
+  showLoading('Fetching site from GitHub...');
   try {
-    var response = await fetch(PUBLIC_SOURCE_URL, { cache: 'no-store' });
-    if (!response.ok) throw new Error('Source request returned ' + response.status);
-    var content = await response.text();
-    state.originalHtml = content;
+    var result = await fetchFile(FILE_PATH);
+    state.originalHtml = result.content;
+    state.fileSha = result.sha;
 
     showLoading('Parsing sections...');
-    state.sections = parseHtml(content);
+    state.sections = parseHtml(result.content);
     state.selectedSectionId = state.sections.length > 0 ? state.sections[0].id : null;
 
     var siteUrl = 'https://' + OWNER + '.github.io/' + REPO + '/';
     document.getElementById('previewLink').href = siteUrl;
-    loadBlobPreview(content);
+    loadBlobPreview(result.content);
     document.getElementById('siteLabel').textContent = OWNER + '/' + REPO;
 
     renderSections();
@@ -879,7 +971,7 @@ function countSectionChanges(section) {
     if (vf.src !== vf.originalSrc) count++;
   });
   section.imageFields.forEach(function(imf) {
-    if (imf.src !== imf.originalSrc || imf.newFileDataUrl) count++;
+    if (imf.src !== imf.originalSrc || imf.newFileBase64) count++;
   });
   return count;
 }
@@ -956,9 +1048,9 @@ function renderEditor() {
 
   // Image fields
   section.imageFields.forEach(function(imf) {
-    var changed = imf.src !== imf.originalSrc || imf.newFileDataUrl;
+    var changed = imf.src !== imf.originalSrc || imf.newFileBase64;
     var label = imf.id.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-    var imgSrc = imf.newFileDataUrl ? imf.newFileDataUrl : imf.src;
+    var imgSrc = imf.newFileBase64 ? 'data:image/jpeg;base64,' + imf.newFileBase64 : imf.src;
 
     html += '<div class="element-group' + (changed ? ' changed' : '') + '">' +
       '<div class="el-label">' +
@@ -967,7 +1059,7 @@ function renderEditor() {
       '</div>' +
       '<div class="img-preview">' +
         '<img src="' + escapeAttr(imgSrc) + '" alt="" onerror="this.style.display=\'none\'">' +
-        '<input type="url" class="image-url" data-section="' + section.id + '" data-field="' + imf.id + '" oninput="handleImageUrlEdit(this)" value="' + escapeAttr(imf.src) + '" placeholder="Paste image URL">' +
+        '<div class="img-info">' + escapeHtml(imf.src.split('/').pop()) + '</div>' +
         '<button class="swap-btn" onclick="startImageSwap(\'' + section.id + '\',\'' + imf.id + '\')">Swap</button>' +
       '</div>';
 
@@ -1036,19 +1128,6 @@ function handleVideoEdit(el) {
   updateChangeCount();
 }
 
-function handleImageUrlEdit(el) {
-  var section = state.sections.find(function(s) { return s.id === el.dataset.section; });
-  if (!section) return;
-  var imf = section.imageFields.find(function(i) { return i.id === el.dataset.field; });
-  if (!imf) return;
-  imf.src = el.value.trim();
-  imf.newFileDataUrl = null;
-  var selector = imf.selector || ('[' + imf.attr + '=\"' + imf.attrValue + '\"]');
-  updatePreviewImageSelector(selector, imf.src);
-  renderSections();
-  updateChangeCount();
-}
-
 function startImageSwap(sectionId, fieldId) {
   state.pendingImageSwap = { sectionId: sectionId, fieldId: fieldId };
   document.getElementById('fileChooser').click();
@@ -1059,7 +1138,7 @@ document.getElementById('fileChooser').addEventListener('change', function(e) {
   var file = e.target.files[0];
   var reader = new FileReader();
   reader.onload = function(ev) {
-    var dataUrl = ev.target.result;
+    var base64 = ev.target.result.split(',')[1];
     var sid = state.pendingImageSwap.sectionId;
     var fid = state.pendingImageSwap.fieldId;
     var section = state.sections.find(function(s) { return s.id === sid; });
@@ -1074,9 +1153,9 @@ document.getElementById('fileChooser').addEventListener('change', function(e) {
             'This image is only ' + img.naturalWidth + 'px wide. For best display we recommend at least 400px wide.';
           document.getElementById('resWarningModal').style.display = 'flex';
           // Store pending data for modal actions
-          state.pendingImageData = { section: section, field: imf, dataUrl: dataUrl, fileName: file.name.toLowerCase().replace(/\s+/g, '-') };
+          state.pendingImageData = { section: section, field: imf, base64: base64, fileName: file.name.toLowerCase().replace(/\s+/g, '-') };
         } else {
-          applyImageSwap(section, imf, dataUrl, file.name.toLowerCase().replace(/\s+/g, '-'));
+          applyImageSwap(section, imf, base64, file.name.toLowerCase().replace(/\s+/g, '-'));
         }
       };
       img.src = ev.target.result;
@@ -1087,11 +1166,13 @@ document.getElementById('fileChooser').addEventListener('change', function(e) {
   e.target.value = '';
 });
 
-function applyImageSwap(section, imf, dataUrl, fileName) {
-  imf.newFileDataUrl = dataUrl;
+function applyImageSwap(section, imf, base64, fileName) {
+  imf.newFileBase64 = base64;
   imf.newFileName = fileName;
-  var selector = imf.selector || ('[' + imf.attr + '=\"' + imf.attrValue + '\"]');
-  updatePreviewImageSelector(selector, dataUrl);
+  // For image fields with a selector, update preview
+  if (imf.selector) {
+    updatePreviewImageSelector(imf.selector, 'data:image/jpeg;base64,' + base64);
+  }
   renderEditor();
   renderSections();
   updateChangeCount();
@@ -1111,7 +1192,7 @@ function resModalAction(action) {
     document.getElementById('fileChooser').click();
   } else if (action === 'anyway' && state.pendingImageData) {
     var d = state.pendingImageData;
-    applyImageSwap(d.section, d.field, d.dataUrl, d.fileName);
+    applyImageSwap(d.section, d.field, d.base64, d.fileName);
   }
   state.pendingImageData = null;
 }
@@ -1135,10 +1216,11 @@ function resetField(sectionId, fieldId, type) {
     var imf = section.imageFields.find(function(i) { return i.id === fieldId; });
     if (imf) {
       imf.src = imf.originalSrc;
-      imf.newFileDataUrl = null;
+      imf.newFileBase64 = null;
       imf.newFileName = null;
-      var selector = imf.selector || ('[' + imf.attr + '=\"' + imf.attrValue + '\"]');
-      updatePreviewImageSelector(selector, imf.originalSrc);
+      if (imf.selector) {
+        updatePreviewImageSelector(imf.selector, imf.originalSrc);
+      }
     }
   }
   renderEditor();
@@ -1195,7 +1277,7 @@ function updateChangeCount() {
   var total = 0;
   state.sections.forEach(function(s) { total += countSectionChanges(s); });
   var el = document.getElementById('changeCount');
-  var btn = document.getElementById('downloadBtn');
+  var btn = document.getElementById('deployBtn');
   var applyBtn = document.getElementById('applyBtn');
   if (total === 0) {
     el.innerHTML = 'No changes';
@@ -1251,7 +1333,7 @@ function buildModifiedHtml(forPreview) {
 
     // Apply image field changes
     section.imageFields.forEach(function(imf) {
-      if (imf.src === imf.originalSrc && !imf.newFileDataUrl) return;
+      if (imf.src === imf.originalSrc && !imf.newFileBase64) return;
       try {
         var el;
         if (imf.selector) {
@@ -1261,9 +1343,9 @@ function buildModifiedHtml(forPreview) {
           el = doc.querySelector('[' + imf.attr + '="' + imf.attrValue + '"]');
         }
         if (!el) return;
-        if (imf.newFileDataUrl) {
-          el.setAttribute('src', imf.newFileDataUrl);
-        } else {
+        if (imf.newFileBase64 && forPreview) {
+          el.setAttribute('src', 'data:image/jpeg;base64,' + imf.newFileBase64);
+        } else if (imf.newFileBase64) {
           el.setAttribute('src', imf.src);
         }
       } catch(e) { console.warn('Image selector failed:', imf.id, e); }
@@ -1301,29 +1383,124 @@ function applyChanges() {
 }
 
 // ==========================================
-// DOWNLOAD FOR PUBLISHING
+// DEPLOY
 // ==========================================
-function downloadSite() {
+async function deploySite() {
+  var btn = document.getElementById('deployBtn');
+  btn.disabled = true;
+  btn.textContent = 'Deploying...';
+
+  showLoading('Applying changes...');
+
   try {
-    var html = buildModifiedHtml(false);
-    var blob = new Blob([html], { type: 'text/html' });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = 'index.html';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-    showToast('Downloaded index.html. Replace the project file in VS Code, then commit and publish.', 7000);
+    var newHtml = buildModifiedHtml(false);
+
+    // Inject deploy marker
+    var deployMarker = 'deploy-' + Date.now();
+    newHtml = newHtml.replace('</head>', '<!--' + deployMarker + '--></head>');
+
+    // Push HTML
+    showLoading('Pushing to GitHub...');
+    var result = await pushFile(FILE_PATH, newHtml, 'Update site via Vision8 Editor', state.fileSha);
+    state.fileSha = result.content.sha;
+    state.originalHtml = newHtml;
+
+    // Upload any new image files
+    var uploads = [];
+    state.sections.forEach(function(section) {
+      section.imageFields.forEach(function(imf) {
+        if (imf.newFileBase64) {
+          uploads.push(imf);
+        }
+      });
+    });
+
+    for (var i = 0; i < uploads.length; i++) {
+      showLoading('Uploading image ' + (i+1) + '/' + uploads.length + '...');
+      var imf = uploads[i];
+      // Push binary to assets/
+      var body = { message: 'Add image: ' + imf.newFileName, content: imf.newFileBase64, branch: 'main' };
+      try {
+        var existing = await ghFetch('contents/assets/' + imf.newFileName);
+        body.sha = existing.sha;
+      } catch(e) { /* new file */ }
+      await ghFetch('contents/assets/' + imf.newFileName, {
+        method: 'PUT',
+        body: JSON.stringify(body)
+      });
+    }
+
+    // Reset change tracking
+    state.sections.forEach(function(s) {
+      s.textFields.forEach(function(tf) {
+        tf.originalContent = tf.content;
+      });
+      s.videoFields.forEach(function(vf) {
+        vf.originalSrc = vf.src;
+      });
+      s.imageFields.forEach(function(imf) {
+        imf.originalSrc = imf.src;
+        imf.newFileBase64 = null;
+        imf.newFileName = null;
+      });
+    });
+
+    btn.textContent = 'Deployed!';
+    btn.className = 'deploy-btn success';
+    setTimeout(function() {
+      btn.textContent = 'Deploy Changes';
+      btn.className = 'deploy-btn';
+      updateChangeCount();
+    }, 3000);
+
+    // Poll for live status
+    checkLiveStatus(deployMarker);
+
+    // Refresh preview
+    loadBlobPreview(newHtml);
+    renderSections();
+    renderEditor();
+
   } catch (err) {
-    alert('Download failed: ' + err.message);
+    btn.textContent = 'Deploy Failed';
+    btn.className = 'deploy-btn error';
+    alert('Deploy failed: ' + err.message);
     console.error(err);
+    setTimeout(function() {
+      btn.textContent = 'Deploy Changes';
+      btn.className = 'deploy-btn';
+      btn.disabled = false;
+    }, 3000);
+  } finally {
+    hideLoading();
   }
 }
 
-// Load the public source directly. Publishing is deliberately handled outside the browser.
-loadSite();
+// ==========================================
+// LIVE STATUS CHECK
+// ==========================================
+async function checkLiveStatus(deployMarker) {
+  var liveUrl = 'https://' + OWNER + '.github.io/' + REPO + '/';
+  var maxAttempts = 20;
+  var attempt = 0;
+
+  var poll = async function() {
+    attempt++;
+    try {
+      var resp = await fetch(liveUrl + '?_cb=' + Date.now(), { cache: 'no-store' });
+      var text = await resp.text();
+      if (text.indexOf(deployMarker) !== -1) {
+        showToast('Changes are live!', 5000);
+        return;
+      }
+    } catch (e) { /* ignore */ }
+    if (attempt < maxAttempts) {
+      setTimeout(poll, 3000);
+    }
+  };
+
+  setTimeout(poll, 5000);
+}
 
 // ==========================================
 // COLUMN RESIZE
