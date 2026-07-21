@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: `f3d098e` (`v1.1.1 centre logo and black header`)
+- Current delivery commit: pending v1.1.1 commit, based on `9e8a32f`
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
