@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1.6, one-shot logo and reel hero sequence, 21 July 2026. Baseline remains v1.0.
+v1.1.5, transparent hero-logo asset, 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: `24ce1be` (`v1.1.6 add one-shot logo and reel hero`)
+- Current delivery commit: `8ab3f56` (`v1.1.5 use transparent hero logo`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -48,18 +48,8 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Added the supplied transparent PNG to `assets/vision8-transparent-v1.1.png`.
 - Changed only the large hero logo to use that local transparent asset; the left header logo remains unchanged.
 - Updated public and editor labels to Build v1.1.5.
-- At v1.1.5, the requested logo-to-video-to-logo sequence remained pending.
+- The requested logo-to-video-to-logo cycle still requires the finished combined looping video.
 - Snapshots: `backups/pre-v1.1.5-*/` and `backups/v1.1.5-transparent-hero/`.
-
-### v1.1.6, one-shot logo and reel hero
-
-- Added the supplied white transparent logo as `assets/vision8-logo-white.png`.
-- Hero now slowly zooms the logo for four seconds, fades to the existing homepage reel in the same frame, then restores the logo and holds it when the reel ends. The sequence does not repeat unless the page reloads.
-- Removed the redundant `About Us` label while retaining the `Premium Video Production Services` heading and approved introductory copy.
-- Removed the duplicate reel below the introductory copy.
-- Updated public and editor labels to Build v1.1.6.
-- Static HTML, JavaScript, asset checksum and diff checks passed. Browser testing was not performed; manual playback validation is pending.
-- Snapshots: `backups/pre-v1.1.6-*/` and `backups/v1.1.6-hero-sequence/`.
 
 ## Known defects and risks
 
