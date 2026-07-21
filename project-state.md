@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1.3, homepage and fixed dark theme, 21 July 2026. Baseline remains v1.0.
+v1.1.4, brand hero and left header logo, 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: `2ff04c6` (`v1.1.3 remove hero video and lock dark theme`)
+- Current delivery commit: pending (`v1.1.4 brand hero and left header logo`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -33,6 +33,15 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Added persistent visible `Build v1.0.1` labels to the public website and the editor.
 - This release is intentionally limited to version visibility.
 - Snapshot: `backups/v1.0.1-build-label/`.
+
+### v1.1.4, brand hero and left header logo
+
+- Added a brand hero section at the top of the page: the large logo now appears before any video.
+- The hero logo is an editable image field (`hero-logo`), discovered automatically by the editor under Hero.
+- Header logo moved to the left edge; navigation remains at the right edge. Applies to desktop and mobile.
+- Home navigation points to the new hero.
+- Visible labels updated to Build v1.1.4.
+- Snapshot: `backups/pre-v1.1.4-*/` (pre-change) and `backups/v1.1.4-brand-hero/` (post-change).
 
 ## Known defects and risks
 
