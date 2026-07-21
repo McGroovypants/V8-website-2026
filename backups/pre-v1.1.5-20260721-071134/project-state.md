@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1.5, transparent hero-logo asset, 21 July 2026. Baseline remains v1.0.
+v1.1.4, brand hero and left header logo, 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -11,7 +11,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: pending (`v1.1.5 transparent hero-logo asset`)
+- Current delivery commit: `6a372fe` (`v1.1.4 brand hero and left header logo`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -42,14 +42,6 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Home navigation points to the new hero.
 - Visible labels updated to Build v1.1.4.
 - Snapshot: `backups/pre-v1.1.4-*/` (pre-change) and `backups/v1.1.4-brand-hero/` (post-change).
-
-### v1.1.5, transparent hero-logo asset
-
-- Added the supplied transparent PNG to `assets/vision8-transparent-v1.1.png`.
-- Changed only the large hero logo to use that local transparent asset; the left header logo remains unchanged.
-- Updated public and editor labels to Build v1.1.5.
-- The requested logo-to-video-to-logo cycle still requires the finished combined looping video.
-- Snapshots: `backups/pre-v1.1.5-*/` and `backups/v1.1.5-transparent-hero/`.
 
 ## Known defects and risks
 
