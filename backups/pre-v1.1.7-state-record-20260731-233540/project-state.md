@@ -2,22 +2,16 @@
 
 ## Version
 
-v1.1.7, focused video-services showcase, 1 August 2026. Baseline remains v1.0.
+v1.1.6, one-shot logo and reel hero sequence, 21 July 2026. Baseline remains v1.0.
 
 ## Purpose
 
 Turn the Vision8 website editor into a reliable content editor that follows the live preview and preserves the approved site design.
 
-## Current direction
-
-- Treat the current page as a focused video-services showcase that will later be linked from a new Vision8 front page.
-- The future front page and broader service architecture remain to be developed separately.
-- Keep the nine existing service screens as the core of this page.
-
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: `a11b6c3` (`v1.1.7 reshape page as video services showcase`)
+- Current delivery commit: `24ce1be` (`v1.1.6 add one-shot logo and reel hero`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -27,7 +21,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 2. Repair the logo workflow. It must be a real image field with paste-URL and upload options.
 3. The editing panel must follow the preview screen while scrolling, and preview-to-editor selection must work too.
 4. Make existing content editable without allowing arbitrary layout changes: text, images, videos, URLs, button labels, modal content, contact details, navigation, footer and site settings.
-5. The earlier top-video control plan is superseded for this page: the current direction removes the opening reel entirely.
+5. Add an explicit top-video sizing control. Full-screen must be one option, not a fixed decision.
 6. Work in small stages. Each stage needs a focused test, a version increment, a source snapshot, state update and a Git commit.
 7. Use Git commits as the durable handover, so the work remains available in VS Code and does not rely on chat memory.
 8. Display the current visible build version on both the public website and the editor, so a deployed commit can be confirmed at a glance.
@@ -66,16 +60,6 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 - Updated public and editor labels to Build v1.1.6.
 - Static HTML, JavaScript, asset checksum and diff checks passed. Browser testing was not performed; manual playback validation is pending.
 - Snapshots: `backups/pre-v1.1.6-*/` and `backups/v1.1.6-hero-sequence/`.
-
-### v1.1.7, focused video-services showcase
-
-- Removed the complete opening logo-and-reel hero so the page now begins with the video-services introduction.
-- Kept all nine service screens and replaced the generic `Our Services` heading with the provisional line `Everything video. Exceptionally done.`
-- Removed the former second team profile, including its photograph, role and biography, from the active website source.
-- Updated the Home anchor to the first remaining page section and added fixed-header clearance at the top of the page.
-- Updated public and editor labels to Build v1.1.7.
-- Static HTML, JavaScript, content-count and diff checks passed. Browser testing was not performed; manual desktop and phone validation is pending.
-- Snapshots: `backups/pre-v1.1.7-*/` and `backups/v1.1.7-video-services-page/`.
 
 ## Known defects and risks
 
@@ -120,9 +104,9 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 
 Add bidirectional preview and editor focus behaviour. Selecting an editable preview item opens and scrolls its matching control; focusing a control reveals the matching preview item.
 
-### v1.3, hero controls, superseded
+### v1.3, hero controls
 
-The opening video was removed in v1.1.7. Do not implement hero-video controls unless a future page design explicitly restores a hero video.
+Add top-video sizing presets and a custom height option, with desktop and mobile previews. Keep full-screen as an available preset.
 
 ### v1.4, comprehensive content fields
 
