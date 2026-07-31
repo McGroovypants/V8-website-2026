@@ -2,7 +2,7 @@
 
 ## Version
 
-v1.1.7, focused video-services showcase, 1 August 2026. Baseline remains v1.0.
+v1.1.8, focused video-services showcase, 1 August 2026. Baseline remains v1.0.
 
 ## Purpose
 
@@ -17,7 +17,7 @@ Turn the Vision8 website editor into a reliable content editor that follows the 
 ## Source of truth
 
 - Repository: `McGroovypants/Vision8Website`
-- Current delivery commit: `a11b6c3` (`v1.1.7 reshape page as video services showcase`)
+- Current delivery commit: `e9f493b` (`v1.1.8 remove intro section`)
 - Main files: `index.html`, `editor/index.html`
 - Baseline source copies and checksums: `backups/v1.0-baseline/`
 
@@ -138,3 +138,11 @@ Add controlled hide/show, reorder and add/delete functions for repeatable conten
 - Keep layout choices constrained to approved controls, not free-form styling.
 - Read the target file before every edit.
 - Review the diff after every stage. Do not include unrelated changes.
+
+### v1.1.8, remove intro copy
+
+- Removed the entire introduction section: the "Premium Video Production Services" heading and the company description paragraph.
+- Page now opens directly with the services section ("Everything video. Exceptionally done.").
+- Home anchor updated to point to the services section.
+- Updated public and editor labels to Build v1.1.8.
+- Snapshots: `backups/pre-v1.1.8-index.html` and `backups/pre-v1.1.8-editor.html`.
