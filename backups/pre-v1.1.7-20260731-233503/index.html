@@ -54,9 +54,29 @@ header{
 .logo{width:100%;max-width:180px;height:auto}
 .logo-link{display:flex;grid-column:1;align-items:center;justify-self:start;flex-shrink:0}
 nav{grid-column:3;justify-self:end}
-/* video services introduction */
-.video-services-intro{padding-top:148px}
-@media(max-width:768px){.video-services-intro{padding-top:116px}}
+/* brand hero */
+.brand-hero{position:relative;min-height:72vh;padding:68px 0 0;overflow:hidden;background:#111}
+.hero-media{position:relative;display:flex;align-items:center;justify-content:center;min-height:calc(72vh - 68px)}
+.brand-hero .hero-logo{
+  position:relative;z-index:2;width:min(60vw,520px);height:auto;
+  animation:heroLogoIntro 4s ease-in-out forwards;
+}
+.brand-hero .hero-video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 0.8s ease;
+}
+.brand-hero.video-active .hero-video{opacity:1}
+.brand-hero.final-logo .hero-logo{animation:none;opacity:1;transform:scale(1.08)}
+@keyframes heroLogoIntro{
+  0%{opacity:1;transform:scale(0.96)}
+  80%{opacity:1;transform:scale(1.06)}
+  100%{opacity:0;transform:scale(1.08)}
+}
+@media(max-width:768px){
+  .brand-hero{min-height:56vh}
+  .hero-media{min-height:calc(56vh - 68px)}
+  .brand-hero .hero-logo{width:min(78vw,340px)}
+}
 .build-version{
   position:fixed;right:12px;bottom:12px;z-index:1100;
   padding:4px 8px;border:1px solid rgba(255,255,255,0.3);border-radius:999px;
@@ -352,17 +372,25 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       <span></span><span></span><span></span>
     </button>
     <nav>
-      <a href="#about" class="active">Home</a>
+      <a href="#hero" class="active">Home</a>
       <a href="#services">Services</a>
       <a href="#team">Team</a>
       <a href="#contact" class="nav-cta">Contact Us</a>
     </nav>
   </div>
 </header>
-<div class="build-version" aria-label="Website build version">Build v1.1.7</div>
+<div class="build-version" aria-label="Website build version">Build v1.1.6</div>
+
+<!-- ============ BRAND HERO ============ -->
+<section id="hero" class="brand-hero">
+  <div class="hero-media">
+    <img class="hero-logo" data-v8-img="hero-logo" src="assets/vision8-logo-white.png" alt="Vision8">
+    <video class="hero-video" muted playsinline preload="auto" src="https://res.cloudinary.com/deyb4o5qz/video/upload/w_1280,q_auto/Vision8_2025_Reel_HEADER_2_j12y5e.mp4"></video>
+  </div>
+</section>
 
 <!-- ============ INTRODUCTION ============ -->
-<section id="about" class="video-services-intro">
+<section id="about">
   <div class="container">
     <div class="about-text">
       <h2 class="section-title" data-v8-field="about-title">Premium Video Production Services</h2>
@@ -376,7 +404,7 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
   <div class="container">
     <div class="section-header">
       <p class="section-label">What We Do</p>
-      <h2 class="section-title">Everything video. Exceptionally done.</h2>
+      <h2 class="section-title">Our Services</h2>
       <p class="section-subtitle">From aerial filming to animation, we offer a comprehensive range of video services to bring your vision to life.</p>
     </div>
     <div class="services-grid" id="services-grid">
@@ -531,6 +559,17 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
         </div>
       </div>
 
+      <div class="team-card fade-in" data-v8-team="duncan">
+        <div class="team-photo">
+          <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Duncan_xgauyg.jpg" alt="Duncan McCann" loading="lazy">
+        </div>
+        <div class="team-info">
+          <h3 data-v8-field="team-name-2">Duncan McCann</h3>
+          <div class="role" data-v8-field="team-role-2">Creative Director / Sauce Reduction</div>
+          <p data-v8-field="team-bio-2">The secret sauce for any good communication is a good creative concept that reduces information clutter to the essence of what's required. After 20 years as a writer, producer, and strategist in Advertising and Communications Agencies, Duncan lends creative and analytical firepower to crafting messages and understanding audiences.</p>
+        </div>
+      </div>
+
       <div class="team-card fade-in" data-v8-team="gary">
         <div class="team-photo">
           <img src="https://res.cloudinary.com/deyb4o5qz/image/upload/w_600,q_auto,f_auto/Gary_ygfld4.jpg" alt="Gary Leano" loading="lazy">
@@ -680,6 +719,24 @@ footer p{font-size:0.85rem;color:var(--text-muted)}
       lastY = y;
     }, {passive:true});
   })();
+
+  // Play the hero sequence once: logo zoom, reel, then held logo.
+  const hero = document.querySelector('.brand-hero');
+  const heroVideo = hero?.querySelector('.hero-video');
+  if (hero && heroVideo) {
+    const holdLogo = () => {
+      hero.classList.remove('video-active');
+      hero.classList.add('final-logo');
+    };
+    heroVideo.addEventListener('ended', holdLogo, { once: true });
+    heroVideo.addEventListener('error', holdLogo, { once: true });
+    window.setTimeout(() => {
+      heroVideo.currentTime = 0;
+      heroVideo.play().then(() => {
+        hero.classList.add('video-active');
+      }).catch(holdLogo);
+    }, 4000);
+  }
 
   // Clone logo track for seamless infinite scroll
   const logoTrack = document.querySelector('.logo-track');
